@@ -1,0 +1,8 @@
+* installing *source* package ‘BOBaFIT’ ...
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Errore: object ‘dev’ is not exported by 'namespace:grDevices'
+Esecuzione interrotta
+ERROR: lazy loading failed for package ‘BOBaFIT’
+* removing ‘/Users/gaiamazzocchetti/project/BOBaFIT.Rcheck/BOBaFIT’

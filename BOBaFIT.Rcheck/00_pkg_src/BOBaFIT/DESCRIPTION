@@ -15,8 +15,6 @@ LazyData: true
 RoxygenNote: 7.1.1
 URL: https://github.com/andrea-poletti-unibo/BOBaFIT
 BugReports: https://github.com/andrea-poletti-unibo/BOBaFIT/issues
-Imports: 
-    dplyr,
-    NbClust,
-    ggplot2,
-    grDevices
+Imports: dplyr, NbClust, ggplot2, grDevices
+NeedsCompilation: no
+Packaged: 2020-10-14 12:25:19 UTC; gaiamazzocchetti
