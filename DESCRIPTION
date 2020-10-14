@@ -1,0 +1,15 @@
+Package: BOBaFIT
+Type: Package
+Title: Refitting diploid region profiles using a clustering procedure
+Version: 0.1.0
+Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", role=c("cre","aut")),
+      person("Gaia", "Mazzocchetti", email="gaia.mazzocchetti95@gmail.com", role=c("cre","aut")),
+      person("Vincenza", "Solli", email="vincenza.solli2@unibo.it", role=c("cre","aut")))
+Author: Andrea Poletti [aut, cre], Gaia Mazzocchetti [aut, cre], Vincenza Solli [aut, cre]
+Maintainer: Andrea Poletti <andrea.poletti5@gmail.com>
+Description: This package provides a method to refit the correct diploid region in copy number profiles. It uses a clustering algorithm to 
+ identify pathology-specific normal (diploid) chromosomes and then use their copy number signal to refit the whole profile. 
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
