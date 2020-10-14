@@ -27,11 +27,13 @@ DRrefit(
 \item{plot_path}{Path to save output plots}
 }
 \value{
-
+A plot that shows old and refitted copy number profiles
 }
 \description{
 This function refits the diploid region of input copy number profiles (BED file)
 }
 \examples{
+\dontrun{
 DRrefit(segments_chort,chrlist, maxCN=6, clust_method=ward.D2, plot_output=F,plot_path)
+}
 }

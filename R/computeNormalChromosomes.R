@@ -4,18 +4,22 @@
 #' @param perc decimal value of alteration frequency, by default is 0.15
 #'
 #' @importFrom dplyr filter group_by summarise arrange
+#' @importFrom tidyr %>%
+#' @importFrom stats weighted.mean
 #'
 #'
 #' @return vector with chormosome names
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' computeNormalChromosomes(segments)
-#'
+#' }
 
 
 computeNormalChromosomes <- function(segments, perc = 0.15) {
 
+  ID <- arm <- weighted.mean <- CN <- width <- weighted_mean_CN <- NULL
   samples <- segments$ID%>% unique()
 
   segments$width <- segments$end - segments$start

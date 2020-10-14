@@ -9,17 +9,22 @@
 #' @param plot_output Whether to plot refitted profiles (logical)
 #' @param plot_path Path to save output plots
 #'
-#' @return
+#' @return A plot that shows old and refitted copy number profiles
 #' @export
 #'
-#' @importFrom dplyr filter group_by summarise arrange
+#'
+#' @importFrom dplyr filter group_by summarise arrange n desc
 #' @import NbClust
 #' @import ggplot2
-#' @importFrom stats median
-#' @importFrom grDevices png dev
+#' @importFrom stats median weighted.mean
+#' @importFrom grDevices png dev.off
+#' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @importFrom tidyr %>%
 #'
 #' @examples
+#' \dontrun{
 #' DRrefit(segments_chort,chrlist, maxCN=6, clust_method=ward.D2, plot_output=F,plot_path)
+#' }
 
 DRrefit <- function(segments_chort,
                     chrlist,
@@ -28,6 +33,7 @@ DRrefit <- function(segments_chort,
                     plot_output=F,
                     plot_path) {
 
+  ward.D2 <- ID <- arm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
   OUTPUT <- list()
 
   segments_chort$CN[segments_chort$CN == Inf] <- maxCN
@@ -42,7 +48,7 @@ DRrefit <- function(segments_chort,
                                   ref_clust_chr=character(),
                                   num_clust=numeric(),
                                   correction_factor=numeric())
-  i=34
+
   for (i in 1:length(samples)){
 
     cat("sample n: ",i," - ",samples[i],"\n")

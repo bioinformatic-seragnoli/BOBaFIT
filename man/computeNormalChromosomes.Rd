@@ -18,6 +18,7 @@ vector with chormosome names
 computeNormalChromosomes
 }
 \examples{
+\dontrun{
 computeNormalChromosomes(segments)
-
+}
 }
