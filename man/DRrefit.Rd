@@ -8,7 +8,7 @@ DRrefit(
   segments_chort,
   chrlist,
   maxCN = 6,
-  clust_method = ward.D2,
+  clust_method = "ward.D2",
   plot_output = F,
   plot_path
 )
@@ -18,9 +18,9 @@ DRrefit(
 
 \item{chrlist}{list of normal chromosome arms (pathology-specific)}
 
-\item{maxCN}{threshold of max copy number to consider}
+\item{maxCN}{threshold of max copy number to consider. By default is 6}
 
-\item{clust_method}{clustering method. Default is "ward.D2"}
+\item{clust_method}{clustering method. By default is "ward.D2"}
 
 \item{plot_output}{Whether to plot refitted profiles (logical)}
 
@@ -34,6 +34,6 @@ This function refits the diploid region of input copy number profiles (BED file)
 }
 \examples{
 \dontrun{
-DRrefit(segments_chort,chrlist, maxCN=6, clust_method=ward.D2, plot_output=F,plot_path)
+DRrefit(segments_chort,chrlist, maxCN=6, clust_method= "ward.D2", plot_output=F,plot_path)
 }
 }

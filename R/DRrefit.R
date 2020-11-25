@@ -4,8 +4,8 @@
 #'
 #' @param segments_chort data.frame formatted with correct column names )
 #' @param chrlist list of normal chromosome arms (pathology-specific)
-#' @param maxCN threshold of max copy number to consider
-#' @param clust_method clustering method. Default is "ward.D2"
+#' @param maxCN threshold of max copy number to consider. By default is 6
+#' @param clust_method clustering method. By default is "ward.D2"
 #' @param plot_output Whether to plot refitted profiles (logical)
 #' @param plot_path Path to save output plots
 #'
@@ -23,14 +23,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' DRrefit(segments_chort,chrlist, maxCN=6, clust_method=ward.D2, plot_output=F,plot_path)
+#' DRrefit(segments_chort,chrlist, maxCN=6, clust_method= "ward.D2", plot_output=F,plot_path)
 #' }
 
 DRrefit <- function(segments_chort,
                     chrlist,
-                    maxCN=6,
-                    clust_method=ward.D2,
-                    plot_output=F,
+                    maxCN = 6,
+                    clust_method = "ward.D2",
+                    plot_output = F,
                     plot_path) {
 
   ward.D2 <- ID <- arm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
@@ -137,6 +137,8 @@ DRrefit <- function(segments_chort,
     report_clustering <- rbind(report_clustering, samp_report)
 
     segments$CN_corrected <- segments$CN + correction_factor
+
+    segments$CN_corrected <- ifelse(segments$CN_corrected < 0, 0.001, segments$CN_corrected)
 
     if (plot_output == T) {
 
