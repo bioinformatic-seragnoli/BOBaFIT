@@ -19,6 +19,7 @@ Imports:
     dplyr,
     NbClust,
     ggplot2,
+    ggbio,
     grDevices,
     stats,
     tidyr,
