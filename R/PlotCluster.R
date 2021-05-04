@@ -12,7 +12,7 @@
 #'
 #' @importFrom dplyr filter group_by summarise arrange
 #' @import NbClust
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot geom_hline geom_point geom_label ggtitle
 #' @importFrom ggforce geom_mark_ellipse
 #' @importFrom stats median weighted.mean
 #' @importFrom grDevices png dev.off
