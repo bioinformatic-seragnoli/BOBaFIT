@@ -101,7 +101,7 @@ PlotCluster <- function(segs, clust_method, plot_path) {
 
       print(
         ggplot(CLUST_TABLE, aes(
-          x = 1:40,
+          x = 1:44,
           y = CN,
           colour = cluster
         )) +
