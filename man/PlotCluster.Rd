@@ -4,7 +4,7 @@
 \alias{PlotCluster}
 \title{PlotCluster}
 \usage{
-PlotCluster(segs, clust_method, plot_path)
+PlotCluster(segs, clust_method = "ward.D2", plot_path)
 }
 \arguments{
 \item{segs}{data.frame with segments of samples. It must be formatted with correct column names (start, end, ID)}
@@ -21,6 +21,6 @@ The function clusters chromosomes based on the copy number (CN) and returns a gr
 }
 \examples{
 \dontrun{
-PlotCluster(segments, clust_method=ward.D2, plot_path)
+PlotCluster(segments, clust_method= "ward.D2", plot_path)
 }
 }

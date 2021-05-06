@@ -12,17 +12,20 @@
 #'
 #' @importFrom dplyr filter group_by summarise arrange
 #' @import NbClust
-#' @importFrom ggplot2 ggplot geom_hline geom_point geom_label ggtitle
+#' @importFrom ggplot2 ggplot geom_hline geom_point geom_label ggtitle aes
 #' @importFrom ggforce geom_mark_ellipse
 #' @importFrom stats median weighted.mean
 #' @importFrom grDevices png dev.off
 #' @importFrom tidyr %>%
+#' @importFrom stringr str_sort
 #'
 #' @examples
 #' \dontrun{
-#' PlotCluster(segments, clust_method=ward.D2, plot_path)
+#' PlotCluster(segments, clust_method= "ward.D2", plot_path)
 #' }
-PlotCluster <- function(segs, clust_method, plot_path) {
+PlotCluster <- function(segs,
+                        clust_method = "ward.D2",
+                        plot_path) {
   report_clustering <- data.frame(sample = character(),
                                   clustering = character(),
                                   num_clust = numeric())
@@ -101,10 +104,11 @@ PlotCluster <- function(segs, clust_method, plot_path) {
 
       print(
         ggplot(CLUST_TABLE, aes(
-          x = 1:44,
+          x = 1:nrow(CLUST_TABLE),
           y = CN,
           colour = cluster
         )) +
+          ylim(0,5) +
           geom_mark_ellipse(aes(fill = cluster)) +
           geom_hline(yintercept = 2, alpha = 0.5) +
           geom_point(size = 2) +
@@ -123,5 +127,5 @@ PlotCluster <- function(segs, clust_method, plot_path) {
   }
   OUTPUT <-
     list(report = report_clustering , plot_tables = CLUST_TABLE_LIST)
-
+  OUTPUT
 }
