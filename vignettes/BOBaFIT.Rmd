@@ -11,9 +11,8 @@ bibliography: references.bib
 ---
 
 ```{r style, eval=TRUE, echo = FALSE, results = 'asis'}
- BiocStyle::latex()
+BiocStyle::latex()
 ```
-
 # Overview
 
 The R package BoBafit is composed of three functions which allow the refit and the recalibration of copy number profile of tumor sample. The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains two secondary functions, the `ComputeNormalChromosome`, which generates the chromosome list, and the `PlotCluster`.
@@ -30,7 +29,7 @@ knitr::kable(head(segments))
 
 # BOBaFIT workflow
 
-To start the analysis of the diploid region made by BOBaFIT, .tsv files , containing the sample copy number profile, and the chromosome list are needed as inputs. The chromosome list is the list of chromosomes which are the least affected by SCNAs in the tumor and can be manually created or by using the function *`ComputeNormalChromosome`.* We suggest these two sequential steps to allow the right refit and recalibration of sample's diploid region:
+To start the analysis of the diploid region made by BOBaFIT, .tsv files , containing the sample copy number profile, and the chromosome list are needed as inputs. The chromosome list is the list of chromosomes which are the least affected by SCNAs in the tumor and can be manually created or by using the function `ComputeNormalChromosome`*.* We suggest these two sequential steps to allow the right refit and recalibration of sample's diploid region:
 
 1.  `ComputeNormalChromosome()`
 
@@ -59,7 +58,7 @@ Storing the result in the variable `chr_list`, it will be a vector containing th
 
 Following, the function shows in the Viewer a plot where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (Blue bars).
 
-![](figure/Chromosome_list_plot.png){width="714"}
+![](figure/Chromosome_list_plot.png){width="100%"}
 
 ## DRrefit
 
@@ -120,11 +119,11 @@ Based on the CR value two plots can be displayed:
 
 -   CR ≤ 0.1: the new segment and the old segments are orange and red colored, respectively;
 
-![](figure/SAMPLE_1_ward.D2.png "CR < 0.1"){width="1000" height="160"}
+![](figure/SAMPLE_1_ward.D2.png "CR < 0.1"){width="100%"}
 
 -   CR \> 0.1: the new segment and the old segments are green and red colored, respectively;
 
-![](figure/SAMPLE_13_ward.D2.png "CR > 0.1"){width="904"}
+![](figure/SAMPLE_13_ward.D2.png "CR > 0.1"){width="100%"}
 
 # PlotCluster
 
@@ -144,7 +143,7 @@ We suggest to store the output on a variable (in this example we use `Cluster`) 
 
 In the `PlotCluster` plot, the chromosomal arms are labeled and colored according to the cluster they belong to. The y-axis reports the arm CN.
 
-![](figure/SAMPLE_100_PlotCluster.png)
+![](figure/SAMPLE_100_PlotCluster.png){style="text-align: center;" width="100%"}
 
 ### Tables
 
@@ -174,7 +173,7 @@ Cluster$plot_tables$SAMPLE_1
 
 # Session info {.unnumbered}
 
-```{r sessionInfo, echo=FALSE, results='markup'}
+```{r sessionInfo, results=tex, print=TRUE, eval=TRUE}
 toLatex(sessionInfo())
 ```
 
