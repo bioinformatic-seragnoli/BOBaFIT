@@ -5,8 +5,6 @@ Version: 0.1.0
 Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", role=c("cre","aut")),
       person("Gaia", "Mazzocchetti", email="gaia.mazzocchetti95@gmail.com", role=c("aut")),
       person("Vincenza", "Solli", email="vincenza.solli2@unibo.it", role=c("aut")))
-Author: Andrea Poletti [aut, cre], Gaia Mazzocchetti [aut, cre], Vincenza Solli [aut, cre]
-Maintainer: Andrea Poletti <andrea.poletti5@gmail.com>
 Description: This package provides a method to refit the correct diploid region in copy number profiles. It uses a clustering algorithm to 
  identify pathology-specific normal (diploid) chromosomes and then use their copy number signal to refit the whole profile. 
 License: GPL-2
@@ -24,13 +22,15 @@ Imports:
     stats,
     tidyr,
     GenomicRanges,
-    ggforce
+    ggforce,
+    stringr
 Suggests: 
     rmarkdown,
     markdown,
     BiocStyle,
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    utils
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)

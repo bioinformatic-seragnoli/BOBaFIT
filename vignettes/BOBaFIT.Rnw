@@ -44,7 +44,7 @@ The R package BoBafit is composed of three functions which allow the refit and t
 
 \section{Data}
 The package checks the diploid region assessment working on pre-estimated segment information, as the copy number and their position. We included a data set `segments` where are showed all the information necessary. The data correspond to segments about 100 breast tumors samples obtained by the project TCGA-BRCA \cite{10.5114/wo.2014.47136}.
-<< load.data, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
+<< load_data, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
 library(BOBaFIT)
 data("segments")
 knitr::kable(head(segments))
@@ -94,7 +94,7 @@ The two output data framesare :
 << DRrefit table, eval=FALSE>>=
 Results$segments_corrected
 @
-<< load.data, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
+<< load data segment corrected, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
 library(BOBaFIT)
 data("segment_corrected")
 knitr::kable(head(segment_corrected))
@@ -108,7 +108,7 @@ It is similar to the input one and report the new CN value of each segment calcu
 << result, eval=FALSE>>=
 Results$report
 @
-<< load.data, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
+<< load data report, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
 library(BOBaFIT)
 data("report")
 knitr::kable(head(report))
@@ -151,7 +151,7 @@ The output `report` is a data frame which reports for each sample the clustering
 << result, eval=FALSE>>=
 Cluster$report
 @
-<< load.data, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
+<< load data plot report, echo=FALSE, message=FALSE, paged.print=FALSE, results=tex>>=
 library(BOBaFIT)
 data("plot_clust_rep")
 knitr::kable(head(plot_clust_rep))

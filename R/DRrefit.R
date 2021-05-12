@@ -15,7 +15,7 @@
 #'
 #' @importFrom dplyr filter group_by summarise arrange n desc
 #' @import NbClust
-#' @importFrom ggplot2 ggplot ggtitle ylim facet_grid theme_bw theme scale_x_continuous geom_hline  xlab scale_color_manual
+#' @importFrom ggplot2 ggplot ggtitle ylim facet_grid theme_bw theme scale_x_continuous geom_hline  xlab scale_color_manual unit element_rect
 #' @importFrom ggbio geom_segment
 #' @importFrom stats median weighted.mean
 #' @importFrom grDevices png dev.off

@@ -4,7 +4,7 @@ author: "Vignette Author"
 date: "`r Sys.Date()`"
 output: BiocStyle::html_document
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{BOBaFIT.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
@@ -173,8 +173,8 @@ Cluster$plot_tables$SAMPLE_1
 
 # Session info {.unnumbered}
 
-```{r sessionInfo, results=tex, print=TRUE, eval=TRUE}
-toLatex(sessionInfo())
+```{r sessionInfo, results='asis', print=TRUE, eval=TRUE}
+sessionInfo()
 ```
 
 # Reference {.unnumbered}
