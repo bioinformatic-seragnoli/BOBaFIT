@@ -20,8 +20,8 @@
 #' @importFrom stringr str_sort
 #'
 #' @examples
-#' \dontrun{
-#' PlotCluster(segments, clust_method= "ward.D2", plot_path)
+#' {
+#' PlotCluster(segments, clust_method= "ward.D2", plot_path = ".")
 #' }
 PlotCluster <- function(segs,
                         clust_method = "ward.D2",
@@ -64,7 +64,7 @@ PlotCluster <- function(segs,
           chr = CN_CHR$arm,
           cluster = ClustRes$Best.partition,
           CN = CN_CHR_values,
-          stringsAsFactors = F
+          stringsAsFactors = FALSE
         )
 
     })

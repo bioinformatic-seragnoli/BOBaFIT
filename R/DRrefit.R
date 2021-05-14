@@ -2,14 +2,14 @@
 #'
 #' @description This function refits the diploid region of input copy number profiles (BED file)
 #'
-#' @param segments_chort data.frame formatted with correct column names )
+#' @param segments_chort data.frame formatted with correct column names
 #' @param chrlist list of normal chromosome arms (pathology-specific)
 #' @param maxCN threshold of max copy number to consider. By default is 6
 #' @param clust_method clustering method. By default is "ward.D2"
 #' @param plot_output Whether to plot refitted profiles (logical)
 #' @param plot_path Path to save output plots
 #'
-#' @return A plot that shows old and refitted copy number profiles
+#' @return A plot that shows old and refitted copy number profiles  and two databases (segment corrected and report)
 #' @export
 #'
 #'
@@ -23,15 +23,16 @@
 #' @importFrom tidyr %>%
 #'
 #' @examples
-#' \dontrun{
-#' DRrefit(segments_chort,chrlist, maxCN=6, clust_method= "ward.D2", plot_output=F,plot_path)
+#' {
+#' chrlist <- c("10q","11p","12p",19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+#' DRrefit(segments,chrlist = chrlist , maxCN=6, clust_method= "ward.D2", plot_output=FALSE, plot_path = ".")
 #' }
 
 DRrefit <- function(segments_chort,
                     chrlist,
                     maxCN = 6,
                     clust_method = "ward.D2",
-                    plot_output = F,
+                    plot_output = FALSE,
                     plot_path) {
 
   ward.D2 <- ID <- arm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
@@ -70,7 +71,7 @@ DRrefit <- function(segments_chort,
       ClustRes <- NbClust(CN_CHR_values, distance = "euclidean", method = clust_method, index = "all", min.nc = 2, max.nc = 6)
 
 
-      CLUST_TABLE <- data.frame(chr=CN_CHR$arm, cluster=ClustRes$Best.partition, stringsAsFactors = F)
+      CLUST_TABLE <- data.frame(chr=CN_CHR$arm, cluster=ClustRes$Best.partition, stringsAsFactors = FALSE)
 
 
       CLUST_TABLE_in_list_sorted <- CLUST_TABLE %>%
@@ -141,9 +142,9 @@ DRrefit <- function(segments_chort,
 
     segments$CN_corrected <- ifelse(segments$CN_corrected < 0, 0.001, segments$CN_corrected)
 
-    if (plot_output == T) {
+    if (plot_output == TRUE) {
 
-      Granges_segments <- makeGRangesFromDataFrame(segments, keep.extra.columns = T)
+      Granges_segments <- makeGRangesFromDataFrame(segments, keep.extra.columns = TRUE)
 
       allchr <- segments$arm %>% unique()
       idx <- allchr %in% new_chrlist
@@ -159,12 +160,12 @@ DRrefit <- function(segments_chort,
           geom_segment(stat="identity", aes(y=CN, colour="old_CN"), size = 1.2, alpha=0.7) +
           geom_segment(stat="identity", aes(y=CN_corrected, colour="new_CN_corrected"), size = 1.2, alpha=0.7) +
           ylim(0,5) +
-          facet_grid( ~seqnames, scales = "free", space = "free", margins = F) +
+          facet_grid( ~seqnames, scales = "free", space = "free", margins = FALSE) +
           theme_bw() +
           theme(panel.spacing=unit(.05, "lines"),
                 panel.border = element_rect(color = "black", fill = NA, size = 0.2),
                 legend.position="bottom") +
-          scale_x_continuous(labels = function(x) format(x/1000000, scientific = F), expand = c(0, 0), limits = c(0, NA))+
+          scale_x_continuous(labels = function(x) format(x/1000000, scientific = FALSE), expand = c(0, 0), limits = c(0, NA))+
           geom_hline(yintercept = 2, linetype=3) +
           xlab("Mbp (genomic position)") +
           if(abs(correction_factor) > 0.1 ){

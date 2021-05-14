@@ -20,7 +20,7 @@ Plot with chromosomes clustered
 The function clusters chromosomes based on the copy number (CN) and returns a graph where it is possible to observe the different groups
 }
 \examples{
-\dontrun{
-PlotCluster(segments, clust_method= "ward.D2", plot_path)
+{
+PlotCluster(segments, clust_method= "ward.D2", plot_path = ".")
 }
 }
