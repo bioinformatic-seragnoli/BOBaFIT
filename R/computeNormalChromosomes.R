@@ -18,6 +18,7 @@
 #'
 #' @examples
 #' {
+#' data(segments)
 #' computeNormalChromosomes(segments)
 #' }
 

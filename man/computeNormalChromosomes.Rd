@@ -31,6 +31,7 @@ computeNormalChromosomes
 }
 \examples{
 {
+data(segments)
 computeNormalChromosomes(segments)
 }
 }

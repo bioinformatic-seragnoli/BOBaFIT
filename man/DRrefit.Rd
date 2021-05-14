@@ -9,7 +9,7 @@ DRrefit(
   chrlist,
   maxCN = 6,
   clust_method = "ward.D2",
-  plot_output = F,
+  plot_output = FALSE,
   plot_path
 )
 }

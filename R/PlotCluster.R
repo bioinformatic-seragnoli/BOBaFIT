@@ -21,6 +21,7 @@
 #'
 #' @examples
 #' {
+#' data(segments)
 #' PlotCluster(segments, clust_method= "ward.D2", plot_path = ".")
 #' }
 PlotCluster <- function(segs,
