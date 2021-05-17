@@ -1,5 +1,5 @@
-\name{plot_clust_rep2}
-\alias{plot_clust_rep2}
+\name{plot_clust_sample_rep}
+\alias{plot_clust_sample_rep}
 \docType{data}
 \title{
 PlotCluster sample clustering report
@@ -7,7 +7,7 @@ PlotCluster sample clustering report
 \description{
 For each sample, the function produces a dataframe containing the cluster number and the cn of each chromosomal arm
 }
-\usage{data("plot_cluster_rep2")}
+\usage{data("plot_cluster_sample_rep")}
 \format{
   A data frame with 0 observations on the following 2 variables.
   \describe{
@@ -18,7 +18,7 @@ For each sample, the function produces a dataframe containing the cluster number
 }
 
 \examples{
-data(plot_clust_rep2)
-str(plot_cluster_rep2)
+data(plot_clust_sample_rep)
+str(plot_cluster_sample_rep)
 }
 \keyword{datasets}

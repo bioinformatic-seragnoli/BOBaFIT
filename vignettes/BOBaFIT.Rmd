@@ -169,8 +169,8 @@ Cluster$plot_tables$SAMPLE_1
 
 ```{r echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
  library(BOBaFIT)
-    data("plot_clust_rep2")
-    knitr::kable(head(plot_clust_rep2))
+    data("plot_clust_sample_rep")
+    knitr::kable(head(plot_clust_sample_rep))
 ```
 
 # Session info {.unnumbered}
