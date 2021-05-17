@@ -20,9 +20,10 @@
 #' @importFrom stringr str_sort
 #'
 #' @examples
+#' \donttest{
 #' {
 #' data(segments)
-#' PlotCluster(segments, clust_method= "ward.D2", plot_path = ".")
+#' PlotCluster(segs=segments, clust_method= "ward.D2", plot_path = ".")
 #' }
 PlotCluster <- function(segs,
                         clust_method = "ward.D2",

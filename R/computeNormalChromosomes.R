@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' {
+#' \donttest{
 #' data(segments)
 #' computeNormalChromosomes(segments)
 #' }

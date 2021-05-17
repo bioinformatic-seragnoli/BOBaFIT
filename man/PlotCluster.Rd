@@ -19,9 +19,3 @@ Plot with chromosomes clustered
 \description{
 The function clusters chromosomes based on the copy number (CN) and returns a graph where it is possible to observe the different groups
 }
-\examples{
-{
-data(segments)
-PlotCluster(segments, clust_method= "ward.D2", plot_path = ".")
-}
-}

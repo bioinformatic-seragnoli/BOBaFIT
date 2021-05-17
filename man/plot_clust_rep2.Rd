@@ -1,5 +1,5 @@
-\name{plot_clust_sample_rep}
-\alias{plot_clust_sample_rep}
+\name{plot_clust_rep2}
+\alias{plot_clust_rep2}
 \docType{data}
 \title{
 PlotCluster sample clustering report
@@ -18,7 +18,7 @@ For each sample, the function produces a dataframe containing the cluster number
 }
 
 \examples{
-data(plot_clust_sample_rep)
+data(plot_clust_rep2)
 str(plot_cluster_rep2)
 }
 \keyword{datasets}

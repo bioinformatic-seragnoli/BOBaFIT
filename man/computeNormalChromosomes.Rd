@@ -30,7 +30,7 @@ vector with chormosome names and plot with the alteration rate of each chromosom
 computeNormalChromosomes
 }
 \examples{
-{
+\donttest{
 data(segments)
 computeNormalChromosomes(segments)
 }

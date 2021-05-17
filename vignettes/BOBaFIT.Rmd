@@ -3,6 +3,8 @@ title: "BOBaFIT"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
 output: BiocStyle::html_document
+abstract: >
+  Good practises for BOBaFIT package
 vignette: >
   %\VignetteIndexEntry{BOBaFIT.Rmd}
   %\VignetteEngine{knitr::rmarkdown}

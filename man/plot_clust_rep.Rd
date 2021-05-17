@@ -4,7 +4,7 @@
 \title{
 PlotCluster report
 }
-\description
+\description{
 The dataframe reports che clustering outcome and the number of cluster found on each sample
 }
 \usage{data("plot_clust_rep")}
