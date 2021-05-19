@@ -7,7 +7,7 @@ PlotCluster sample clustering report
 \description{
 For each sample, the function produces a dataframe containing the cluster number and the cn of each chromosomal arm
 }
-\usage{data("plot_cluster_sample_rep")}
+\usage{data("plot_clust_sample_rep")}
 \format{
   A data frame with 0 observations on the following 2 variables.
   \describe{
@@ -19,6 +19,6 @@ For each sample, the function produces a dataframe containing the cluster number
 
 \examples{
 data(plot_clust_sample_rep)
-str(plot_cluster_sample_rep)
+str(plot_clust_sample_rep)
 }
 \keyword{datasets}
