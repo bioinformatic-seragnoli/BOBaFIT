@@ -58,7 +58,7 @@ Storing the result in the variable `chr_list`, it will be a vector containing th
 
 ### Figure
 
-Following, the function shows in the Viewer a plot where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (Blue bars).
+Following, the function shows in the Viewer a plot where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (Red bars).
 
 ![](figure/Chromosome_list_plot.png){width="100%"}
 

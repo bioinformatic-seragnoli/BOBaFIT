@@ -23,7 +23,7 @@
 #' @importFrom tidyr %>%
 #'
 #' @examples
-#'\donttest{
+#' \donttest{
 #' data(segments)
 #' chrlist <- c("10q","11p","12p",19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
 #' DRrefit(segments,chrlist = chrlist , maxCN=6, clust_method= "ward.D2", plot_output=FALSE)
@@ -50,7 +50,8 @@ DRrefit <- function(segments_chort,
                                   clustering=character(),
                                   ref_clust_chr=character(),
                                   num_clust=numeric(),
-                                  correction_factor=numeric())
+                                  correction_factor=numeric(),
+                                  correction_class= character())
 
   for (i in 1:length(samples)){
 
@@ -136,6 +137,9 @@ DRrefit <- function(segments_chort,
     correction_factor <- 2 - real_diploid_region
 
     samp_report$correction_factor <- correction_factor
+
+    samp_report$correction_class <- ifelse(correction_factor > 0.5, "REFITTED",
+                                           ifelse(correction_factor <= 0.1, "NO CHANGES", "RECALIBRATED"))
 
     report_clustering <- rbind(report_clustering, samp_report)
 
