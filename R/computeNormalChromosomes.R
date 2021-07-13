@@ -9,7 +9,7 @@
 #' @importFrom dplyr filter group_by summarise arrange
 #' @importFrom tidyr %>%
 #' @importFrom stats weighted.mean
-#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot
+#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot scale_fill_manual
 #' @importFrom stringr str_sort
 #'
 #'
@@ -51,13 +51,14 @@ computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_thresh
 
 
 
-  df <- data.frame(arm=names(result), normal_frequency= as.numeric(1- result), observations= table(all_chromosome$arm))
+  df <- data.frame(arm=names(result), alteration_rate= as.numeric(1- result), observations= table(all_chromosome$arm))
   df$arm <- df$arm %>% factor(levels = str_sort(df$arm, numeric = TRUE))
   print(
-    ggplot(df, aes(x=arm, y=normal_frequency)) +
-      geom_bar(stat = "identity", aes( fill= normal_frequency > perc)) +
+    ggplot(df, aes(x=arm, y=alteration_rate)) +
+      geom_bar(stat = "identity", aes( fill= alteration_rate > perc)) +
       geom_hline(yintercept = perc, colour= "black", linetype= 2)+
-      geom_text( aes(label= round(normal_frequency, 2), vjust = 1.4))
+      geom_text( aes(label= round(alteration_rate, 2), vjust = 1.4))+
+      scale_fill_manual(values = c("#1E90FF","#FF4040"))
   )
 
   names(result_filtered)
