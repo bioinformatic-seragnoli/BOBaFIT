@@ -25,8 +25,10 @@
 #' @examples
 #' \donttest{
 #' data(segments)
-#' chrlist <- c("10q","11p","12p",19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
-#' DRrefit(segments,chrlist = chrlist , maxCN=6, clust_method= "ward.D2", plot_output=FALSE)
+#'
+#' chr_list <- c("10q","11p","12p",19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+#'
+#' DRrefit(segments,chrlist = chr_list, plot_output=FALSE)
 #' }
 
 DRrefit <- function(segments_chort,

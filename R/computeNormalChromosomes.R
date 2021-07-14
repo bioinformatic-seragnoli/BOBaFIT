@@ -19,13 +19,14 @@
 #' @examples
 #' \donttest{
 #' data(segments)
+#'
 #' computeNormalChromosomes(segments)
 #' }
 
 
 computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_threshold= 1.60, max_threshold=2.40) {
 
-  ID <- arm <- weighted.mean <- CN <- width <- weighted_mean_CN <- normal_frequency <- NULL
+  ID <- arm <- weighted.mean <- CN <- width <- weighted_mean_CN <- alteration_rate <- NULL
   samples <- segments$ID%>% unique()
   segments$CN[segments$CN > 6] <- maxCN
 

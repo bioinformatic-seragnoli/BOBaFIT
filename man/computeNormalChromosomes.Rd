@@ -32,6 +32,7 @@ computeNormalChromosomes
 \examples{
 \donttest{
 data(segments)
+
 computeNormalChromosomes(segments)
 }
 }

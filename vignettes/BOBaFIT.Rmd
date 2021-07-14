@@ -1,6 +1,6 @@
 ---
 title: "BOBaFIT"
-author: "Vignette Author"
+author: "Gaia Mazzocchetti"
 date: "`r Sys.Date()`"
 output: BiocStyle::html_document
 abstract: >
@@ -15,6 +15,7 @@ bibliography: references.bib
 ```{r style, eval=TRUE, echo = FALSE, results = 'asis'}
 BiocStyle::latex()
 ```
+
 # Overview
 
 The R package BoBafit is composed of three functions which allow the refit and the recalibration of copy number profile of tumor sample. The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains two secondary functions, the `ComputeNormalChromosome`, which generates the chromosome list, and the `PlotCluster`.
@@ -45,7 +46,7 @@ The chromosome list is a vector that contains the chromosomal arms considered "n
 
 Here we performed the function in the data set `segments`, using an alteration rate of 15%.
 
-```{r computeNormalChromosome, echo=TRUE, results='hide', fig.show='hide'}
+```{r computeNormalChromosome, fig.show='hide', include=FALSE, results='hide'}
 library(BOBaFIT)
 chr_list <- computeNormalChromosomes(segments = segments, perc = 0.15)
 ```
@@ -58,9 +59,9 @@ Storing the result in the variable `chr_list`, it will be a vector containing th
 
 ### Figure
 
-Following, the function shows in the Viewer a plot where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (Red bars).
+Following, the function shows in the Viewer a plot where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (blue bars).
 
-![](figure/Chromosome_list_plot.png){width="100%"}
+![](figure/Chromosome_list.png){width="743"}
 
 ## DRrefit
 
@@ -72,7 +73,7 @@ In this example, the `segment` data table and the `chr_list` previously generate
 
 library(BOBaFIT)
 
-Results <- DRrefit (segments_chort = segments, 
+results <- DRrefit (segments_chort = segments, 
         chrlist = chr_list, 
         plot_output = TRUE, 
         plot_path = path)
@@ -87,28 +88,33 @@ The two output data framesare :
 
 -   The data frame `segments corrected`, containing the segment CN adjusted by the correction factor (CR) - value estimated by the function to correct the diploid region- of all samples analyzed.
 
-```{r call table DRrefit, eval=FALSE}
-Results$segments_corrected
+```{r Call segments DRrefit 1, eval=FALSE}
+results$segments_corrected 
 ```
 
-```{r Table DRefit, echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
-    library(BOBaFIT)
-    data("segment_corrected")
-    knitr::kable(head(segment_corrected))
+```{r Table DRefit, message=FALSE, include=FALSE, paged.print=FALSE, results='asis'}
+    library(dplyr)
+sample_test <- paste0("SAMPLE_", 1:5)
+
+test <- segments %>% filter(ID %in% sample_test)
+results <- DRrefit(test, chrlist = chr_list)
+```
+
+```{r Call segments DRrefit 2, echo=FALSE}
+ knitr::kable(head(results$segments_corrected))
 ```
 
 It is similar to the input one and report the new CN value of each segment calculated by DRrefit (`CN_corrected`).
 
--   The data frame `report`, which contains all the information about the clustering as the outcome,the number of clusters found in that sample, the chromosome list and the CR used for the adjstment of the diploid region.
+-   The data frame `report`, which contains all the information about the clustering as the outcome,the number of clusters found in that sample, the chromosome list and the CR used for the adjustment of the diploid region. Sample are also divided in three classes, based on their CR: No changes (CR\<0.1); Recalibrated (0.1\<CR\<0.5); Refitted (CR \>0.5). The class label is also reported in the data frame `report`.
 
-```{r Call report DRrefit, eval=FALSE}
-Results$report
+```{r Call report DRrefit 1, eval=FALSE}
+results$report
 ```
 
-```{r Report DRrefit, echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
-    library(BOBaFIT)
-    data("report")
-    knitr::kable(head(report))
+```{r Call report DRrefit 2, echo=FALSE}
+ knitr::kable(head(results$report))
+
 ```
 
 When the column `clustering` reports FAIL, it indicates that , NbClust fails the chromosome clustering in that sample. In this case, the sample will not present clusters, so the input chromosome list will be kept as reference . When the column `clustering` reports SUCCED, NbClust succeeds and and the new chromosome list is chosen. The chromosome list used for each sample are all reported in the column `ref_clust_chr`.
@@ -121,7 +127,7 @@ Based on the CR value two plots can be displayed:
 
 -   CR ≤ 0.1: the new segment and the old segments are orange and red colored, respectively;
 
-![](figure/SAMPLE_1_ward.D2.png "CR < 0.1"){width="100%"}
+![](figure/SAMPLE_1_ward.D2.png "CR < 0.1"){style="style" width="32in"}
 
 -   CR \> 0.1: the new segment and the old segments are green and red colored, respectively;
 
@@ -131,12 +137,10 @@ Based on the CR value two plots can be displayed:
 
 The accessory function is `PlotCluster`. It can be used to visualize the chromosomal cluster in a single sample. It can cluster either a sample cohort or a single sample and the input data is always a .tsv file as the data frame `segments`. The option of `clust_method` argument are the same of `DRrefit`("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid" and "kmeans").
 
-```{r eval=FALSE}
-library(BOBaFIT)
+```{r PlotCluster, eval=FALSE}
 Cluster <- PlotCluster(segs = segments,
-                       clust_method = "ward.D2", 
-                       plot_path = path)
-
+                       clust_method = "ward.D2",
+                       plot_output= FALSE)
 ```
 
 We suggest to store the output on a variable (in this example we use `Cluster`) to view and possibly save the data frame generated. The `PlotCuster` will automatically save the plot in the folder indicated by the variable `path` of the argument `plot_path`. All the outputs are explained and shown in the next section.
@@ -151,31 +155,34 @@ In the `PlotCluster` plot, the chromosomal arms are labeled and colored accordin
 
 The output `report` is a data frame which reports for each sample the clustering outcome (fail or succeeded) and the number of clusters for each sample analyzed.
 
-```{r eval=FALSE}
+```{r Call report PLotCluster 1, eval=FALSE}
 Cluster$report
 ```
 
-```{r echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
- library(BOBaFIT)
-    data("plot_clust_rep")
-    knitr::kable(head(plot_clust_rep))
+```{r Call report PLotCluster 2, message=FALSE, include=FALSE, paged.print=FALSE, results='asis'}
+    Cluster <- PlotCluster(segs = test,
+                       clust_method = "ward.D2",
+                       plot_output= FALSE)
 ```
 
-The second output that will be stored in the Cluster variable is a list of dataframes, one for each sample analyzed, where are reported the information about the plot.
+```{r Call report PLotCluster 3, echo=FALSE}
+knitr::kable(head(Cluster$report))
 
-```{r eval=FALSE}
+```
+
+The second output that will be stored in the Cluster variable is a list of data frames, one for each sample analyzed, where are reported the information about the plot.
+
+```{r Call sample table 1, eval=FALSE}
 Cluster$plot_tables$SAMPLE_1
 ```
 
-```{r echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
- library(BOBaFIT)
-    data("plot_clust_sample_rep")
-    knitr::kable(head(plot_clust_sample_rep))
+```{r  Call sample table 2,echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
+    knitr::kable(head(Cluster$plot_tables$SAMPLE_1))
 ```
 
 # Session info {.unnumbered}
 
-```{r sessionInfo, results='asis', print=TRUE, eval=TRUE}
+```{r sessionInfo, echo=TRUE, print=TRUE, results='hold', collapse=TRUE, }
 sessionInfo()
 ```
 
