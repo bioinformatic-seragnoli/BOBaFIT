@@ -13,15 +13,13 @@
 #' @importFrom stringr str_sort
 #'
 #'
-#' @return vector with chormosome names and plot with the alteration rate of each chromosomal arms
+#' @return vector with chromosome names and plot with the alteration rate of each chromosomal arms
 #' @export
 #'
 #' @examples
-#' \donttest{
 #' data(segments)
-#'
 #' computeNormalChromosomes(segments)
-#' }
+
 
 
 computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_threshold= 1.60, max_threshold=2.40) {
