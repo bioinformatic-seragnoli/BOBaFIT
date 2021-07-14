@@ -3,8 +3,4 @@
 .RData
 .Ruserdata
 .
-BOBaFIT.Rproj
-.DS_Store
-vignettes/.DS_Store
-vignettes/figure/.DS_Store
 inst/doc
