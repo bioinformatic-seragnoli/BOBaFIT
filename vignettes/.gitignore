@@ -1,7 +1,8 @@
 *.html
 *.R
 BOBaFIT.Rproj
-.Rhistory
-.DS_Store
+*.Rhistory
+*.DS_Store
 vignettes/.DS_Store
 vignettes/figure/.DS_Store
+
