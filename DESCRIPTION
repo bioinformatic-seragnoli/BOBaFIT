@@ -3,7 +3,7 @@ Type: Package
 Title: Refitting diploid region profiles using a clustering procedure
 Version: 0.99.0
 Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", role=c("aut")),
-      person("Gaia", "Mazzocchetti", email="gaia.mazzocchetti95@gmail.com", role=c("aut", "cre")),
+      person("Gaia", "Mazzocchetti", email="bioinformatic.seragnoli@gmail.com", role=c("aut", "cre")),
       person("Vincenza", "Solli", email="vincenza.solli2@unibo.it", role=c("aut")))
 Description: This package provides a method to refit and correct the diploid region in copy number profiles. It uses a clustering algorithm to 
  identify pathology-specific normal (diploid) chromosomes and then use their copy number signal to refit the whole profile. 
