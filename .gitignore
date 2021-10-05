@@ -2,5 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
 .
-inst/doc
+BOBaFIT.Rproj
+.DS_Store
+vignette/.DS_Store
+vignette/figure/.DS_Store

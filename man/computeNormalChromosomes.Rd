@@ -24,13 +24,12 @@ computeNormalChromosomes(
 \item{max_threshold}{maximum threshold to define a normal CN, by default is 2.40}
 }
 \value{
-vector with chormosome names
+vector with chromosome names and plot with the alteration rate of each chromosomal arms
 }
 \description{
 computeNormalChromosomes
 }
 \examples{
-\dontrun{
+data(segments)
 computeNormalChromosomes(segments)
-}
 }

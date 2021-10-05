@@ -1,37 +1,39 @@
 Package: BOBaFIT
 Type: Package
 Title: Refitting diploid region profiles using a clustering procedure
-Version: 0.1.0
-Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", role=c("cre","aut")),
-      person("Gaia", "Mazzocchetti", email="gaia.mazzocchetti95@gmail.com", role=c("aut")),
+Version: 0.99.0
+Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", role=c("aut")),
+      person("Gaia", "Mazzocchetti", email="bioinformatic.seragnoli@gmail.com", role=c("aut", "cre")),
       person("Vincenza", "Solli", email="vincenza.solli2@unibo.it", role=c("aut")))
-Description: This package provides a method to refit the correct diploid region in copy number profiles. It uses a clustering algorithm to 
+Description: This package provides a method to refit and correct the diploid region in copy number profiles. It uses a clustering algorithm to 
  identify pathology-specific normal (diploid) chromosomes and then use their copy number signal to refit the whole profile. 
-License: GPL-2
+ The package is composed by three functions: DRrefit (the main function), ComputeNormalChromosome and PlotCluster. 
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 URL: https://github.com/andrea-poletti-unibo/BOBaFIT
 BugReports: https://github.com/andrea-poletti-unibo/BOBaFIT/issues
 Imports: 
-    dplyr,
-    NbClust,
-    ggplot2,
-    ggbio,
+    dplyr (>= 1.0.6),
+    NbClust (>= 3.0),
+    ggplot2 (>= 3.3.3),
+    ggbio (>= 1.38.0),
     grDevices,
     stats,
-    tidyr,
-    GenomicRanges,
-    ggforce,
-    stringr
+    tidyr (>= 1.1.3),
+    GenomicRanges (>= 1.42.0),
+    ggforce (>= 0.3.3),
+    stringr (>= 1.4.0)
 Suggests: 
-    rmarkdown,
-    markdown,
-    BiocStyle,
-    knitr,
+    rmarkdown (>= 2.8),
+    markdown (>= 1.1),
+    BiocStyle (>= 2.18.1),
+    knitr (>= 1.33),
     testthat (>= 3.0.0),
     utils
 Config/testthat/edition: 3
+biocViews: CopyNumberVariation, Clustering, Visualization, Normalization, Software
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0)
 VignetteBuilder: knitr

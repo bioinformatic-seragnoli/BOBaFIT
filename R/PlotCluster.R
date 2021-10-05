@@ -1,10 +1,11 @@
 #' PlotCluster
 #'
 #'
-#'@description The function clusters chromosomes based on the copy number (CN) and returns a graph where it is possible to observe the different groups
+#'@description The function clusters chromosomes based on the copy number (CN) and returns a graph where it is possible to observe the different groups and two data frames (report and plot_table). See the vignette for the data frame descriptions.
 #'
 #' @param segs data.frame with segments of samples. It must be formatted with correct column names (start, end, ID)
 #' @param clust_method clustering method. Default is "ward.D2"
+#' @param plot_output Whether to plot refitted profiles (logical)
 #' @param plot_path Path to save output plots
 #'
 #' @return Plot with chromosomes clustered
@@ -20,11 +21,14 @@
 #' @importFrom stringr str_sort
 #'
 #' @examples
-#' \dontrun{
-#' PlotCluster(segments, clust_method= "ward.D2", plot_path)
-#' }
+#' data(segments)
+#' Cluster <- PlotCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
+#' Cluster$report
+#' Cluster$plot_table
+
 PlotCluster <- function(segs,
                         clust_method = "ward.D2",
+                        plot_output= FALSE,
                         plot_path) {
   report_clustering <- data.frame(sample = character(),
                                   clustering = character(),
@@ -64,7 +68,7 @@ PlotCluster <- function(segs,
           chr = CN_CHR$arm,
           cluster = ClustRes$Best.partition,
           CN = CN_CHR_values,
-          stringsAsFactors = F
+          stringsAsFactors = FALSE
         )
 
     })
@@ -94,6 +98,8 @@ PlotCluster <- function(segs,
 
       CLUST_TABLE <- CLUST_TABLE %>% arrange(chr)
 
+      if (plot_output == TRUE) {
+
       png(
         paste0(plot_path, samples[i], "_PlotCluster.png"),
         width = 16,
@@ -117,6 +123,8 @@ PlotCluster <- function(segs,
       )
       options(ggplot2. = "viridis")
       dev.off()
+      }
+
     }
 
 
