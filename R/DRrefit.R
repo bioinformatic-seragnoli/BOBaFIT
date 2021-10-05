@@ -92,7 +92,7 @@ DRrefit <- function(segments_chort,
 
     })
 
-    if (class(TRY)=="try-error"){
+    if (is(TRY, "try-error")){
       print("Clustering failed")
 
       new_chrlist <-  chrlist

@@ -70,7 +70,7 @@ PlotCluster <- function(segs,
     })
 
 
-    if (class(TRY) == "try-error") {
+    if (is(TRY, "try-error")) {
       print("Clustering failed")
       samp_report <- data.frame(sample = samples[i],
                                 clustering = "SUCCEDED",
