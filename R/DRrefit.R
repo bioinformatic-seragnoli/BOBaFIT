@@ -161,7 +161,7 @@ DRrefit <- function(segments_chort,
       
       if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_",clust_method,".png"), width = 16, height = 4, units = "in", res = 300 ) 
       } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_",clust_method,".tif"), width = 16, height = 4, units = "in", res = 300 )
-      } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_",clust_method,"pdf"), width = 16, height = 4 )
+      } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_",clust_method,".pdf"), width = 16, height = 4 )
       } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],"_",clust_method,".jpg"), width = 16, height = 4, units = "in", res = 300 ) 
       } else { message("wrong plot format") 
         break}
