@@ -29,7 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ```
 # Overview
 
-The R package BoBafit is composed of three functions which allow the refit and the recalibration of copy number profile of tumor sample. The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains two secondary functions, the `ComputeNormalChromosome`, which generates the chromosome list, and the `PlotCluster`.
+The R package BoBafit is composed of three functions which allow the refit and the recalibration of copy number profile of tumor sample. 
+The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains two secondary functions, the `ComputeNormalChromosome`, which generates the chromosome list, and the `PlotChrCluster`.
 
 # Data
 
@@ -155,13 +156,13 @@ Based on the CR value two plots can be displayed:
 
 ![](figure/SAMPLE_13_ward.D2.png "CR > 0.1"){width="904"}
 
-# PlotCluster
+# PlotChrCluster
 
-The accessory function is `PlotCluster`. It can be used to visualize the chromosomal cluster in a single sample. It can cluster either a sample cohort or a single sample and the input data is always a .tsv file as the data frame `segments`. The option of `clust_method` argument are the same of `DRrefit`("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid" and "kmeans").
+The accessory function is `PlotChrCluster`. It can be used to visualize the chromosomal cluster in a single sample. It can cluster either a sample cohort or a single sample and the input data is always a .tsv file as the data frame `segments`. The option of `clust_method` argument are the same of `DRrefit`("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid" and "kmeans").
 
 ``` {.r}
 library(BOBaFIT)
-Cluster <- PlotCluster(segs = segments,
+Cluster <- PlotChrCluster(segs = segments,
                        clust_method = "ward.D2", 
                        plot_path = path)
 ```
@@ -170,9 +171,9 @@ We suggest to store the output on a variable (in this example we use `Cluster`) 
 
 ### Figure
 
-In the `PlotCluster` plot, the chromosomal arms are labeled and colored according to the cluster they belong to. The y-axis reports the arm CN.
+In the `PlotChrCluster` plot, the chromosomal arms are labeled and colored according to the cluster they belong to. The y-axis reports the arm CN.
 
-![](figure/SAMPLE_100_PlotCluster.png)
+![](figure/SAMPLE_100_PlotChrCluster.png)
 
 ### Tables
 

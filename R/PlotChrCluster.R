@@ -1,4 +1,4 @@
-#' PlotCluster
+#' PlotChrCluster
 #'
 #'
 #'@description The function clusters chromosomes based on the copy number (CN) and returns a graph where it is possible to observe the different groups and two data frames (report and plot_table). See the vignette for the data frame descriptions.
@@ -22,11 +22,11 @@
 #'
 #' @examples
 #' data(segments)
-#' Cluster <- PlotCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
+#' Cluster <- PlotChrCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
 #' Cluster$report
 #' Cluster$plot_table
 
-PlotCluster <- function(segs,
+PlotChrCluster <- function(segs,
                         clust_method = "ward.D2",
                         plot_output= FALSE,
                         plot_path) {
@@ -101,7 +101,7 @@ PlotCluster <- function(segs,
       if (plot_output == TRUE) {
 
       png(
-        paste0(plot_path, samples[i], "_PlotCluster.png"),
+        paste0(plot_path, samples[i], "_PlotChrCluster.png"),
         width = 16,
         height = 4,
         units = "in",
