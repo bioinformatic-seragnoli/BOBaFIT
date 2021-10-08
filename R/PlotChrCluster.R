@@ -40,7 +40,7 @@ PlotChrCluster <- function(segs,
 
   samples <- segs$ID %>% unique()
 
-  for (i in 1:length(samples)) {
+  for (i in seq_along(samples)) {
     cat("sample n: ", i, " - ", samples[i], "\n")
 
     segments <- segs %>%  filter(ID == samples[i])
@@ -75,13 +75,13 @@ PlotChrCluster <- function(segs,
 
 
     if (is(TRY, "try-error")) {
-      print("Clustering failed")
+      message("Clustering failed")
       samp_report <- data.frame(sample = samples[i],
                                 clustering = "SUCCEDED",
                                 num_clust = NA)
 
     } else {
-      print("Clustering succeded")
+      message("Clustering succeded")
 
       samp_report <- data.frame(
         sample = samples[i],
@@ -110,7 +110,7 @@ PlotChrCluster <- function(segs,
 
       print(
         ggplot(CLUST_TABLE, aes(
-          x = 1:nrow(CLUST_TABLE),
+          x = seq_len(nrow(CLUST_TABLE)),
           y = CN,
           colour = cluster
         )) +

@@ -18,7 +18,8 @@ BiocStyle::latex()
 
 # Overview
 
-The R package BoBafit is composed of three functions which allow the refit and the recalibration of copy number profile of tumor sample. 
+The R package BoBafit is composed of three functions which allow the refit
+and the recalibration of copy number profile of tumor sample. 
 The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains two secondary functions, the `ComputeNormalChromosome`, which generates the chromosome list, and the `PlotChrCluster`.
 
 # Data
@@ -43,20 +44,20 @@ Here we performed this analysis workflow on the dataset `segments` described abo
 
 ## ComputeNormalChromosome
 
-The chromosome list is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested. Chromosomes included in the list should be selected when their CN values are subject to minimal fluctuation and tend to remain within the diploid range in the analyzed tumor. *ComputeNormalChromosome* allows to set the chromosomal alteration rate (`perc`). For a more stringent analysis, we suggest an alteration rate of 5% (0.5) ; on the contrary, for a more permissive analysis, we suggest as maximum rate 20-25% (0.20-0.25) . The function input is a sample cohort with their segments.
+The chromosome list is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested. Chromosomes included in the list should be selected when their CN values are subject to minimal fluctuation and tend to remain within the diploid range in the analyzed tumor. *ComputeNormalChromosome* allows to set the chromosomal alteration rate (`tollerance_val`). For a more stringent analysis, we suggest an alteration rate of 5% (0.5) ; on the contrary, for a more permissive analysis, we suggest as maximum rate 20-25% (0.20-0.25) . The function input is a sample cohort with their segments.
 
 Here we performed the function in the data set `segments`, using an alteration rate of 15%.
 
 ```{r computeNormalChromosome, fig.show='hide', include=FALSE, results='hide'}
 library(BOBaFIT)
-chr_list <- computeNormalChromosomes(segments = segments, perc = 0.15)
+chr_list <- computeNormalChromosomes(segments = segments, tollerance_val = 0.15)
 ```
 
 ```{r results='asis'}
 chr_list
 ```
 
-Storing the result in the variable `chr_list`, it will be a vector containing the chromosomal arms which present an alteration rate under the indicated `perc` value.
+Storing the result in the variable `chr_list`, it will be a vector containing the chromosomal arms which present an alteration rate under the indicated `tollerance_val` value.
 
 ### Figure
 

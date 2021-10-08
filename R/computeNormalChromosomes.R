@@ -1,7 +1,9 @@
 #' computeNormalChromosomes
 #'
+#' @description This function compute the DRrefits' input "chromosome list". It is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested (BED file), under a specific tollerance value
+#'
 #' @param segments data.frame formatted with correct column names
-#' @param perc decimal value of alteration frequency, by default is 0.15
+#' @param tollerance_val decimal value of alteration frequency, by default is 0.15
 #' @param maxCN threshold of max copy number to consider, by default is 6
 #' @param min_threshold minimum threshold to define a normal CN, by default is 1.60
 #' @param max_threshold maximum threshold to define a normal CN, by default is 2.40
@@ -22,7 +24,7 @@
 
 
 
-computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_threshold= 1.60, max_threshold=2.40) {
+computeNormalChromosomes <- function(segments, tollerance_val = 0.15, maxCN= 6, min_threshold= 1.60, max_threshold=2.40) {
 
   ID <- arm <- weighted.mean <- CN <- width <- weighted_mean_CN <- alteration_rate <- NULL
   samples <- segments$ID%>% unique()
@@ -32,8 +34,8 @@ computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_thresh
 
   all_chromosome <- data.frame()
 
-  for (i in 1:length(samples)) {
-    print(paste0( i," - ",samples[i]))
+  for (i in seq_along(samples)) {
+    message(i," - ",samples[i])
     segments_sample <- segments %>% filter(ID == samples[i])
 
     CN_CHR <- segments_sample %>%
@@ -46,7 +48,7 @@ computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_thresh
   }
 
   result <- (table(all_chromosome$arm)/length(samples) )
-  result_filtered <- result[result > 1 - perc]
+  result_filtered <- result[result > 1 - tollerance_val]
 
 
 
@@ -54,8 +56,8 @@ computeNormalChromosomes <- function(segments, perc = 0.15, maxCN= 6, min_thresh
   df$arm <- df$arm %>% factor(levels = str_sort(df$arm, numeric = TRUE))
   print(
     ggplot(df, aes(x=arm, y=alteration_rate)) +
-      geom_bar(stat = "identity", aes( fill= alteration_rate > perc)) +
-      geom_hline(yintercept = perc, colour= "black", linetype= 2)+
+      geom_bar(stat = "identity", aes( fill= alteration_rate > tollerance_val)) +
+      geom_hline(yintercept = tollerance_val, colour= "black", linetype= 2)+
       geom_text( aes(label= round(alteration_rate, 2), vjust = 1.4))+
       scale_fill_manual(values = c("#1E90FF","#FF4040"))
   )

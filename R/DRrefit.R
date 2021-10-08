@@ -53,7 +53,7 @@ DRrefit <- function(segments_chort,
                                   correction_factor=numeric(),
                                   correction_class= character())
 
-  for (i in 1:length(samples)){
+  for (i in seq_along(samples)){
 
     cat("sample n: ",i," - ",samples[i],"\n")
 
@@ -96,7 +96,7 @@ DRrefit <- function(segments_chort,
     })
 
     if (is(TRY, "try-error")){
-      print("Clustering failed")
+      message("Clustering failed")
 
       new_chrlist <-  chrlist
 
@@ -110,7 +110,7 @@ DRrefit <- function(segments_chort,
 
 
     } else {
-      print("Clustering succeded")
+      message("Clustering succeded")
 
       new_chrlist <-  chrlist_cluster
 
