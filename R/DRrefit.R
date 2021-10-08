@@ -1,15 +1,16 @@
 #' DRrefit
 #'
-#' @description This function refits the diploid region of input copy number profiles (BED file)
+#' @description This function refits the diploid region of input copy number profiles (segments - BED file)
 #'
 #' @param segments_chort data.frame formatted with correct column names
 #' @param chrlist list of normal chromosome arms (pathology-specific)
 #' @param maxCN threshold of max copy number to consider. By default is 6
 #' @param clust_method clustering method. By default is "ward.D2"
-#' @param plot_output Whether to plot refitted profiles (logical)
-#' @param plot_path Path to save output plots
+#' @param plot_output whether to plot refitted profiles (logical)
+#' @param plot_format file format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tif")
+#' @param plot_path path to save output plots
 #'
-#' @return A plot that shows old and refitted copy number profiles  and two databases (segment corrected and report). See the vignette for data frame descriptions.
+#' @return A plot that shows old and refitted copy number profiles and two data frames (one is the DRrefit-corrected segments and the other is the samples report). See the vignette for data frame descriptions.
 #' @export
 #'
 #'
@@ -34,6 +35,7 @@ DRrefit <- function(segments_chort,
                     maxCN = 6,
                     clust_method = "ward.D2",
                     plot_output = FALSE,
+                    plot_format = "png",
                     plot_path) {
 
   ward.D2 <- ID <- arm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
@@ -155,9 +157,15 @@ DRrefit <- function(segments_chort,
       idx <- allchr %in% new_chrlist
 
       altered_chr <- allchr[!idx]
-
-      png( paste0(plot_path, samples[i],"_",clust_method,".png"), width = 16, height = 4, units = "in", res = 300 )
-
+      
+      
+      if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_",clust_method,".png"), width = 16, height = 4, units = "in", res = 300 ) 
+      } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_",clust_method,".tif"), width = 16, height = 4, units = "in", res = 300 )
+      } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_",clust_method,"pdf"), width = 16, height = 4 )
+      } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],"_",clust_method,".jpg"), width = 16, height = 4, units = "in", res = 300 ) 
+      } else { message("wrong plot format") 
+        break}
+      
       print(
         ggplot(Granges_segments) +
           ggtitle(paste0("Sample name: ",samples[i]),
