@@ -4,7 +4,7 @@ author: "Gaia Mazzocchetti"
 date: "`r Sys.Date()`"
 output: BiocStyle::html_document
 abstract: >
-  Good practises for BOBaFIT package
+  Good practices for BOBaFIT package
 vignette: >
   %\VignetteIndexEntry{BOBaFIT.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
