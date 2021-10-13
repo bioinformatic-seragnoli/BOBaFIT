@@ -4,14 +4,7 @@
 \alias{DRrefit}
 \title{DRrefit}
 \usage{
-DRrefit(
-  segments_chort,
-  chrlist,
-  maxCN = 6,
-  clust_method = "ward.D2",
-  plot_output = FALSE,
-  plot_path
-)
+DRrefit(segments_chort, chrlist, maxCN = 6, clust_method = "ward.D2")
 }
 \arguments{
 \item{segments_chort}{data.frame formatted with correct column names}
@@ -21,21 +14,17 @@ DRrefit(
 \item{maxCN}{threshold of max copy number to consider. By default is 6}
 
 \item{clust_method}{clustering method. By default is "ward.D2"}
-
-\item{plot_output}{Whether to plot refitted profiles (logical)}
-
-\item{plot_path}{Path to save output plots}
 }
 \value{
-A plot that shows old and refitted copy number profiles  and two databases (segment corrected and report). See the vignette for data frame descriptions.
+Return two data frames, one is the DRrefit-corrected segments and the other is the samples report. See the vignette for data frame descriptions.
 }
 \description{
-This function refits the diploid region of input copy number profiles (BED file)
+This function refits the diploid region of input copy number profiles (segments - BED file)
 }
 \examples{
 data(segments)
 chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
-results <- DRrefit(segments,chrlist = chr_list, plot_output=FALSE)
+results <- DRrefit(segments,chrlist = chr_list)
 results$report
 results$segments_corrected
 }

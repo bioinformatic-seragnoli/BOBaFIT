@@ -6,7 +6,7 @@
 \usage{
 computeNormalChromosomes(
   segments,
-  perc = 0.15,
+  tolerance_val = 0.15,
   maxCN = 6,
   min_threshold = 1.6,
   max_threshold = 2.4
@@ -15,19 +15,19 @@ computeNormalChromosomes(
 \arguments{
 \item{segments}{data.frame formatted with correct column names}
 
-\item{perc}{decimal value of alteration frequency, by default is 0.15}
-
 \item{maxCN}{threshold of max copy number to consider, by default is 6}
 
 \item{min_threshold}{minimum threshold to define a normal CN, by default is 1.60}
 
 \item{max_threshold}{maximum threshold to define a normal CN, by default is 2.40}
+
+\item{tollerance_val}{decimal value of alteration frequency, by default is 0.15}
 }
 \value{
 vector with chromosome names and plot with the alteration rate of each chromosomal arms
 }
 \description{
-computeNormalChromosomes
+This function compute the DRrefits' input "chromosome list". It is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested (BED file), under a specific tolerance value
 }
 \examples{
 data(segments)

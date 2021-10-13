@@ -13,6 +13,7 @@
 #' 
 #' 
 #' @examples
+#' data <- Popeye(segments)
 
 Popeye <- function(segments) {
   

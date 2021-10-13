@@ -6,37 +6,28 @@
 #' @param chrlist list of normal chromosome arms (pathology-specific)
 #' @param maxCN threshold of max copy number to consider. By default is 6
 #' @param clust_method clustering method. By default is "ward.D2"
-#' @param plot_output whether to plot refitted profiles (logical)
-#' @param plot_format file format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tif")
-#' @param plot_path path to save output plots
-#'
-#' @return A plot that shows old and refitted copy number profiles and two data frames (one is the DRrefit-corrected segments and the other is the samples report). See the vignette for data frame descriptions.
+
+#' @return Return two data frames, one is the DRrefit-corrected segments and the other is the samples report. See the vignette for data frame descriptions.
 #' @export
 #'
 #'
 #' @importFrom dplyr filter group_by summarise arrange n desc
 #' @import NbClust
-#' @importFrom ggplot2 ggplot ggtitle ylim facet_grid theme_bw theme scale_x_continuous geom_hline  xlab scale_color_manual unit element_rect
-#' @importFrom ggbio geom_segment
 #' @importFrom stats median weighted.mean
-#' @importFrom grDevices png dev.off
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #' @importFrom tidyr %>%
 #'
 #' @examples
 #' data(segments)
 #' chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
-#' results <- DRrefit(segments,chrlist = chr_list, plot_output=FALSE)
+#' results <- DRrefit(segments,chrlist = chr_list)
 #' results$report
 #' results$segments_corrected
 
 DRrefit <- function(segments_chort,
                     chrlist,
                     maxCN = 6,
-                    clust_method = "ward.D2",
-                    plot_output = FALSE,
-                    plot_format = "png",
-                    plot_path) {
+                    clust_method = "ward.D2") {
 
   ward.D2 <- ID <- arm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
   OUTPUT <- list()
