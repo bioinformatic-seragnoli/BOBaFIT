@@ -3,7 +3,7 @@
 #' @description This function compute the DRrefits' input "chromosome list". It is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested (BED file), under a specific tolerance value
 #'
 #' @param segments data.frame formatted with correct column names
-#' @param tolerance_val decimal value of alteration frequency, by default is 0.15
+#' @param tollerance_val decimal value of alteration frequency, by default is 0.15
 #' @param maxCN threshold of max copy number to consider, by default is 6
 #' @param min_threshold minimum threshold to define a normal CN, by default is 1.60
 #' @param max_threshold maximum threshold to define a normal CN, by default is 2.40

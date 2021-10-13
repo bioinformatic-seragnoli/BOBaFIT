@@ -4,7 +4,7 @@ author: "Gaia Mazzocchetti"
 date: "`r Sys.Date()`"
 output: BiocStyle::html_document
 abstract: >
-  Good practises for BOBaFIT package
+  Good practices for BOBaFIT package
 vignette: >
   %\VignetteIndexEntry{BOBaFIT.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
@@ -24,13 +24,24 @@ The principal and refitting function was named `DRrefit`, which - throughout a c
 
 # Data
 
-The package checks the diploid region assessment working on pre-estimated segment information, as the copy number and their position. We included a data set `segments` where are showed all the information necessary. The data correspond to segments about 100 breast tumors samples obtained by the project TCGA-BRCA [@Tomczak2015].
+The package checks the diploid region assessment working on pre-estimated segment information, as the copy number and their position. We included a data set `TCGA_BRCA_CN_segments` where are showed all the information necessary. The data correspond to segments about 100 breast tumors samples obtained by the project TCGA-BRCA [@Tomczak2015].
 
 ```{r echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
 library(BOBaFIT)
-data("segments")
-knitr::kable(head(segments))
+data("TCGA_BRCA_CN_segments.RData")
+#it is very important to have the same colomn names
+knitr::kable(head(TCGA_BRCA_CN_segments))
+names()
 ```
+
+The dataset needs an extra step for being the perfect BOBaFIT input. All functions work with CN value of each segment, so it must to be calculated from the segment mean or LogR values. We suggest with the following forumula:
+```{r}
+#When data coming from SNParray platform are used, the user have to apply the compression factor in the formula (0.55). In case of WGS/WES data, the correction factor is equal to 1.
+
+TCGA_BRCA_CN_segments$CN <- 2^(TCGA_BRCA_CN_segments$Segment_Mean/0.55 +1)
+options(scipen = 999) 
+```
+
 
 # BOBaFIT workflow
 
@@ -40,17 +51,17 @@ To start the analysis of the diploid region made by BOBaFIT, .tsv files , contai
 
 2.  `DRrefit()`
 
-Here we performed this analysis workflow on the dataset `segments` described above.
+Here we performed this analysis workflow on the dataset `TCGA_BRCA_CN_segments` described above.
 
 ## ComputeNormalChromosome
 
 The chromosome list is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested. Chromosomes included in the list should be selected when their CN values are subject to minimal fluctuation and tend to remain within the diploid range in the analyzed tumor. *ComputeNormalChromosome* allows to set the chromosomal alteration rate (`tollerance_val`). For a more stringent analysis, we suggest an alteration rate of 5% (0.5) ; on the contrary, for a more permissive analysis, we suggest as maximum rate 20-25% (0.20-0.25) . The function input is a sample cohort with their segments.
 
-Here we performed the function in the data set `segments`, using an alteration rate of 15%.
+Here we performed the function in the data set `TCGA_BRCA_CN_segments`, using an alteration rate of 15%.
 
 ```{r computeNormalChromosome, fig.show='hide', include=FALSE, results='hide'}
 library(BOBaFIT)
-chr_list <- computeNormalChromosomes(segments = segments, tollerance_val = 0.15)
+chr_list <- computeNormalChromosomes(segments = TCGA_BRCA_CN_segments, tollerance_val = 0.15)
 ```
 
 ```{r results='asis'}
@@ -75,7 +86,7 @@ In this example, the `segment` data table and the `chr_list` previously generate
 
 library(BOBaFIT)
 
-results <- DRrefit (segments_chort = segments, 
+results <- DRrefit (segments_chort = TCGA_BRCA_CN_segments, 
         chrlist = chr_list, 
         plot_output = TRUE, 
         plot_path = path)
@@ -98,7 +109,7 @@ results$segments_corrected
     library(dplyr)
 sample_test <- paste0("SAMPLE_", 1:5)
 
-test <- segments %>% filter(ID %in% sample_test)
+test <- TCGA_BRCA_CN_segments %>% filter(ID %in% sample_test)
 results <- DRrefit(test, chrlist = chr_list)
 ```
 
@@ -137,10 +148,10 @@ Based on the CR value two plots can be displayed:
 
 # PlotChrCluster
 
-The accessory function is `PlotChrCluster`. It can be used to visualize the chromosomal cluster in a single sample. It can cluster either a sample cohort or a single sample and the input data is always a .tsv file as the data frame `segments`. The option of `clust_method` argument are the same of `DRrefit`("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid" and "kmeans").
+The accessory function is `PlotChrCluster`. It can be used to visualize the chromosomal cluster in a single sample. It can cluster either a sample cohort or a single sample and the input data is always a .tsv file as the data frame `TCGA_BRCA_CN_segments`. The option of `clust_method` argument are the same of `DRrefit`("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid" and "kmeans").
 
 ```{r PlotChrCluster, eval=FALSE}
-Cluster <- PlotChrCluster(segs = segments,
+Cluster <- PlotChrCluster(segs = TCGA_BRCA_CN_segments,
                        clust_method = "ward.D2",
                        plot_output= FALSE)
 ```

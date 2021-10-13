@@ -42,5 +42,5 @@ Config/testthat/edition: 3
 biocViews: CopyNumberVariation, Clustering, Visualization, Normalization, 
     Software
 Depends: 
-    R
+    R (>= 2.10)
 VignetteBuilder: knitr
