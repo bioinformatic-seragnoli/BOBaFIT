@@ -34,8 +34,6 @@ DRrefit <- function(segments_chort,
 
   segments_chort$CN[segments_chort$CN == Inf] <- maxCN
 
-  segments_chort$width <- segments_chort$end - segments_chort$start
-
   samples <- segments_chort$ID %>% unique()
 
   segments_chort_corrected <- data.frame()
