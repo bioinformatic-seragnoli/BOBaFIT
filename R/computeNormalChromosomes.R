@@ -30,8 +30,6 @@ computeNormalChromosomes <- function(segments, tolerance_val = 0.15, maxCN= 6, m
   samples <- segments$ID%>% unique()
   segments$CN[segments$CN > 6] <- maxCN
 
-  segments$width <- segments$end - segments$start
-
   all_chromosome <- data.frame()
 
   for (i in seq_along(samples)) {
@@ -59,7 +57,8 @@ computeNormalChromosomes <- function(segments, tolerance_val = 0.15, maxCN= 6, m
       geom_bar(stat = "identity", aes( fill= alteration_rate > tolerance_val)) +
       geom_hline(yintercept = tolerance_val, colour= "black", linetype= 2)+
       geom_text( aes(label= round(alteration_rate, 2), vjust = 1.4))+
-      scale_fill_manual(values = c("#1E90FF","#FF4040"))
+      scale_fill_manual(values = c("#1E90FF","#FF4040")) + 
+      theme(legend.position="bottom")
   )
 
   names(result_filtered)
