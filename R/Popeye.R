@@ -19,8 +19,8 @@ Popeye <- function(segments) {
   
   segments <- segments %>% filter(!chr %in% c("X", "Y"))
   
-  chrtab <- load("~/BOBaFIT/R/sysdata.rda")
-  
+  chrtab <- BOBaFIT:::chrtab
+
   chrtabGR <- makeGRangesFromDataFrame(chrtab) 
   
   segmentsGR <- makeGRangesFromDataFrame(segments, keep.extra.columns = T)
@@ -35,7 +35,7 @@ Popeye <- function(segments) {
   
   for( i in seq_along(arms)){
     
-    message(i, arms[i])
+    message(i, " - arm: ", arms[i])
     
     chr_sel <- chrtab$chr[i]
     arm_sel <- chrtab$arm[i]
@@ -53,5 +53,10 @@ Popeye <- function(segments) {
     
   }
 
-  annot_data_sort <- annot_data %>% arrange(sample, seqnames, start)
+  annot_data_sort <- annot_data %>% arrange(ID, seqnames, start)
+  
+  OUTPUT <- annot_data_sort %>% rename("chr"="seqnames")
+  
+  OUTPUT
+  
 }
