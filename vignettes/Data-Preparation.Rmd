@@ -10,7 +10,7 @@ output:
 abstract: |
   Best practise to download and prepare TCGA-BRCA dataset for BOBaFIT's analysis
 vignette: |
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Data preparation using TCGA-BRCA database.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib

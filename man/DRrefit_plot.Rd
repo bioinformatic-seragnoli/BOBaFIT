@@ -27,7 +27,7 @@ DRrefit_plot(
 \item{plot_path}{Path to save output plots.}
 }
 \value{
-
+Return the sample copy number profile before and after DRrefit recalibration. The function can output the figure in the R viewer on save it in a specific path.
 }
 \description{
 DRrefit_plot

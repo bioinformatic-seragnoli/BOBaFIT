@@ -10,6 +10,7 @@
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
 #' @importFrom dplyr filter arrange rename
 #' @importFrom plyranges join_overlap_intersect
+#' @importFrom GenomicRanges seqnames start end 
 #' 
 #' 
 #' @examples
@@ -25,7 +26,7 @@ Popeye <- function(segments) {
 
   chrtabGR <- makeGRangesFromDataFrame(chrtab) 
   
-  segmentsGR <- makeGRangesFromDataFrame(segments, keep.extra.columns = T)
+  segmentsGR <- makeGRangesFromDataFrame(segments, keep.extra.columns = TRUE)
   
   segmentsGR_noCentromeres <- join_overlap_intersect(chrtabGR, segmentsGR)
 

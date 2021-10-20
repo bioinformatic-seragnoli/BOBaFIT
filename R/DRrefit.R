@@ -139,51 +139,6 @@ DRrefit <- function(segments_chort,
 
     segments$CN_corrected <- ifelse(segments$CN_corrected < 0, 0.001, segments$CN_corrected)
 
-    if (plot_output == TRUE) {
-
-      Granges_segments <- makeGRangesFromDataFrame(segments, keep.extra.columns = TRUE)
-
-      allchr <- segments$arm %>% unique()
-      idx <- allchr %in% new_chrlist
-
-      altered_chr <- allchr[!idx]
-      
-      
-      if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_",clust_method,".png"), width = 16, height = 4, units = "in", res = 300 ) 
-      } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_",clust_method,".tif"), width = 16, height = 4, units = "in", res = 300 )
-      } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_",clust_method,".pdf"), width = 16, height = 4 )
-      } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],"_",clust_method,".jpg"), width = 16, height = 4, units = "in", res = 300 ) 
-      } else { message("wrong plot format") 
-        break}
-      
-      print(
-        ggplot(Granges_segments) +
-          ggtitle(paste0("Sample name: ",samples[i]),
-                  subtitle = paste0("Correction factor= ", correction_factor %>% round(3)," / not diploid chrs: ", paste(altered_chr, collapse = ", ")) ) +
-          geom_segment(stat="identity", aes(y=CN, colour="old_CN"), size = 1.2, alpha=0.7) +
-          geom_segment(stat="identity", aes(y=CN_corrected, colour="new_CN_corrected"), size = 1.2, alpha=0.7) +
-          ylim(0,5) +
-          facet_grid( ~seqnames, scales = "free", space = "free", margins = FALSE) +
-          theme_bw() +
-          theme(panel.spacing=unit(.05, "lines"),
-                panel.border = element_rect(color = "black", fill = NA, size = 0.2),
-                legend.position="bottom") +
-          scale_x_continuous(labels = function(x) format(x/1000000, scientific = FALSE), expand = c(0, 0), limits = c(0, NA))+
-          geom_hline(yintercept = 2, linetype=3) +
-          xlab("Mbp (genomic position)") +
-          if(abs(correction_factor) > 0.1 ){
-            scale_color_manual(values=c("green4", "red3"))
-          } else {
-            scale_color_manual(values=c("orange", "red3"))
-          }
-      )
-
-      options(ggplot2. ="viridis")
-
-      dev.off()
-
-    }
-
 
     segments_chort_corrected <- rbind(segments_chort_corrected, segments)
   }

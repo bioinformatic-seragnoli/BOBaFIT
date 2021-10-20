@@ -7,13 +7,13 @@
 #' @param plot_format File format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tiff").
 #' @param plot_path Path to save output plots.
 #'
-#' @return
+#' @return Return the sample copy number profile before and after DRrefit recalibration. The function can output the figure in the R viewer on save it in a specific path.
 #' @export
 #' 
-#' @importFrom grDevices png dev.off
+#' @importFrom grDevices png tiff pdf jpeg dev.off
 #' @importFrom ggplot2 ggplot ggtitle ylim facet_grid theme_bw theme scale_x_continuous geom_hline  xlab scale_color_manual unit element_rect
 #' @importFrom ggbio geom_segment
-#' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @importFrom GenomicRanges makeGRangesFromDataFrame 
 #' @importFrom tidyr %>%
 #' @importFrom dplyr filter 
 #'

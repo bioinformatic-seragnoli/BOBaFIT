@@ -11,7 +11,7 @@
 #' @importFrom dplyr filter group_by summarise arrange
 #' @importFrom tidyr %>%
 #' @importFrom stats weighted.mean
-#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot scale_fill_manual
+#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot scale_fill_manual labs
 #' @importFrom stringr str_sort
 #'
 #'
@@ -36,7 +36,7 @@ computeNormalChromosomes <- function(segments, tolerance_val = 0.15, maxCN= 6, m
   all_chromosome <- data.frame()
   
   i=1
-  for (i in 1:length(samples)) {
+  for (i in seq_along(samples)) {
     print(paste0( i," - ",samples[i]))
     segments_sample <- segments %>% filter(ID == samples[i])
     

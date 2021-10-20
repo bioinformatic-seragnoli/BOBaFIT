@@ -15,13 +15,13 @@ computeNormalChromosomes(
 \arguments{
 \item{segments}{data.frame formatted with correct column names}
 
+\item{tolerance_val}{decimal value of alteration frequency, by default is 0.15}
+
 \item{maxCN}{threshold of max copy number to consider, by default is 6}
 
 \item{min_threshold}{minimum threshold to define a normal CN, by default is 1.60}
 
 \item{max_threshold}{maximum threshold to define a normal CN, by default is 2.40}
-
-\item{tollerance_val}{decimal value of alteration frequency, by default is 0.15}
 }
 \value{
 vector with chromosome names and plot with the alteration rate of each chromosomal arms
