@@ -18,13 +18,13 @@ BiocStyle::latex()
 
 # Overview
 
-The R package BoBafit is composed of three functions which allow the refit
-and the recalibration of copy number profile of tumor sample. 
-The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains two secondary functions, the `ComputeNormalChromosome`, which generates the chromosome list, and the `PlotChrCluster`.
+The R package BoBafit is composed of four functions which allow the refit and the recalibration of copy number profile of tumor sample. In particular, the package was built to check, and possibly correct, the diploid regions. The wrong diploid region is a phenomenon that very often affects the profiles of samples with a very complex karyotype.
+
+The principal and refitting function was named `DRrefit`, which - throughout a chromosome clustering method and a list of unaltered chromosomes (chromosome list) - recalibrates the copy number values. BoBafit also contains three secondary functions: `ComputeNormalChromosome`, which generates the chromosome list; `PlotChrCluster`, where is possible to visualize the cluster; and `Popeye`, which affixes its chromosomal arm to each segment (see in "Data Preparation" vignette).
 
 # Data
 
-The package checks the diploid region assessment working on pre-estimated segment information, as the copy number and their position. We included a data set `TCGA_BRCA_CN_segments` where are showed all the information necessary. The data correspond to segments about 100 breast tumors samples obtained by the project TCGA-BRCA [@Tomczak2015].
+The package checks the diploid region assessment working on pre-estimated segment information, as the copy number and their position. We included a data set `TCGA_BRCA_CN_segments` where are showed all the information necessary. The data correspond to segments about 100 breast tumors samples obtained by the project TCGA-BRCA [@Tomczak2015]. In the "Data Preparation" vingnette is shown how we download and prepare the dataset for the following analysis.
 
 ```{r echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
 library(BOBaFIT)
@@ -34,18 +34,9 @@ knitr::kable(head(TCGA_BRCA_CN_segments))
 names()
 ```
 
-The dataset needs an extra step for being the perfect BOBaFIT input. All functions work with CN value of each segment, so it must to be calculated from the segment mean or LogR values. We suggest with the following forumula:
-```{r}
-#When data coming from SNParray platform are used, the user have to apply the compression factor in the formula (0.55). In case of WGS/WES data, the correction factor is equal to 1.
+# BOBaFIT Workflow
 
-TCGA_BRCA_CN_segments$CN <- 2^(TCGA_BRCA_CN_segments$Segment_Mean/0.55 +1)
-options(scipen = 999) 
-```
-
-
-# BOBaFIT workflow
-
-To start the analysis of the diploid region made by BOBaFIT, .tsv files , containing the sample copy number profile, and the chromosome list are needed as inputs. The chromosome list is the list of chromosomes which are the least affected by SCNAs in the tumor and can be manually created or by using the function `ComputeNormalChromosome`*.* We suggest these two sequential steps to allow the right refit and recalibration of sample's diploid region:
+Once the dataset has been prepared, the next step is to generate the chromosome list. The chromosome list is a vector containing all chromosomal arm which are the least affected by SCNAs in the tumor analyzed. Together with the clustering, the chromosome list is one the operating principles to rewrite the diploid region. The list can be manually created or by using the function `ComputeNormalChromosome`*.* We suggest these two sequential steps to allow the right refit and recalibration of sample's diploid region:
 
 1.  `ComputeNormalChromosome()`
 
@@ -55,13 +46,15 @@ Here we performed this analysis workflow on the dataset `TCGA_BRCA_CN_segments` 
 
 ## ComputeNormalChromosome
 
-The chromosome list is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested. Chromosomes included in the list should be selected when their CN values are subject to minimal fluctuation and tend to remain within the diploid range in the analyzed tumor. *ComputeNormalChromosome* allows to set the chromosomal alteration rate (`tollerance_val`). For a more stringent analysis, we suggest an alteration rate of 5% (0.5) ; on the contrary, for a more permissive analysis, we suggest as maximum rate 20-25% (0.20-0.25) . The function input is a sample cohort with their segments.
+The chromosome list is a vector specific for each tumor (type and subtype) . The chromosome arms included in this list must be selected based on how many CNA events they are subject to and how many times their CN falls into a "diploid range". According to this principle, *ComputeNormalChromosome* write the chromosome list. The function allows to set the chromosomal alteration rate (`tollerance_val`), which corresponds to a minimum percentage of alterations that one wants to tolerate per arm.
 
-Here we performed the function in the data set `TCGA_BRCA_CN_segments`, using an alteration rate of 15%.
+With a little dataframe (less than 200 samples), we suggest an alteration rate of 5% (0.5) ; on the contrary, With a big dataframe (about 1000 samples), we suggest as maximum rate 20-25% (0.20-0.25) . The function input is a sample cohort with their segments.
+
+Here we performed the function in the data set `TCGA_BRCA_CN_segments`, using an alteration rate of 25%.
 
 ```{r computeNormalChromosome, fig.show='hide', include=FALSE, results='hide'}
 library(BOBaFIT)
-chr_list <- computeNormalChromosomes(segments = TCGA_BRCA_CN_segments, tollerance_val = 0.15)
+chr_list <- computeNormalChromosomes(segments = TCGA_BRCA_CN_segments, tollerance_val = 0.25)
 ```
 
 ```{r results='asis'}
@@ -72,7 +65,7 @@ Storing the result in the variable `chr_list`, it will be a vector containing th
 
 ### Figure
 
-Following, the function shows in the Viewer a plot where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (blue bars).
+The function also plots in the Viewer a histogram where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (blue bars).
 
 ![](figure/Chromosome_list.png){width="743"}
 
