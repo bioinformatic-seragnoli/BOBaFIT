@@ -8,7 +8,7 @@
 #' 
 #' @importFrom tidyr %>%
 #' @importFrom GenomicRanges makeGRangesFromDataFrame
-#' @importFrom dplyr filter arrange 
+#' @importFrom dplyr filter arrange rename
 #' @importFrom plyranges join_overlap_intersect
 #' 
 #' 
