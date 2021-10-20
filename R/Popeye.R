@@ -57,8 +57,7 @@ Popeye <- function(segments) {
 
   annot_data_sort <- annot_data %>% arrange(ID, seqnames, start)
   
-  OUTPUT <- annot_data_sort %>% rename("chr"="seqnames")
-  
+  OUTPUT <- annot_data_sort %>% rename("seqnames"="chr")
   OUTPUT
   
 }
