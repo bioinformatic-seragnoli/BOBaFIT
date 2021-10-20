@@ -22,7 +22,7 @@ Plot with chromosomes clustered
 The function clusters chromosomes based on the copy number (CN) and returns a graph where it is possible to observe the different groups and two data frames (report and plot_table). See the vignette for the data frame descriptions.
 }
 \examples{
-data(segments)
+data(TCGA_BRCA_CN_segments)
 Cluster <- PlotChrCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
 Cluster$report
 Cluster$plot_table

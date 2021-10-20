@@ -19,8 +19,8 @@
 #' @export
 #'
 #' @examples
-#' data(segments)
-#' computeNormalChromosomes(segments)
+#' segments <- data("TCGA_BRCA_CN_segments")
+#' chr_list <- computeNormalChromosomes(segments)
 
 
 

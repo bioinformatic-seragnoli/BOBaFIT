@@ -16,5 +16,7 @@ Return a data frame containg segments with the arm annotation.
 The function assign the chromosomal arm to each segment.
 }
 \examples{
-data <- Popeye(segments)
+data("TCGA_BRCA_CN_segments")
+data <- TCGA_BRCA_CN_segments[1:9] #as it already presents the arm column
+data_annotated <- Popeye(segments = data)
 }

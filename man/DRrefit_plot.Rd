@@ -4,16 +4,27 @@
 \alias{DRrefit_plot}
 \title{DRrefit_plot}
 \usage{
-DRrefit_plot(segments_refitted, DRrefit_report, plot_format = "png", plot_path)
+DRrefit_plot(
+  segments_refitted,
+  DRrefit_report,
+  plot_viewer = FALSE,
+  plot_save = TRUE,
+  plot_format = "png",
+  plot_path
+)
 }
 \arguments{
-\item{segments_refitted}{DRrefit output dataframe}
+\item{segments_refitted}{DRrefit output dataframe.}
 
-\item{DRrefit_report}{DRrefit output dataframe}
+\item{DRrefit_report}{DRrefit output dataframe.}
 
-\item{plot_format}{file format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tif")}
+\item{plot_viewer}{Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is FALSE.}
 
-\item{plot_path}{path to save output plots}
+\item{plot_save}{Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.}
+
+\item{plot_format}{File format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tiff").}
+
+\item{plot_path}{Path to save output plots.}
 }
 \value{
 
@@ -22,11 +33,15 @@ DRrefit_plot(segments_refitted, DRrefit_report, plot_format = "png", plot_path)
 DRrefit_plot
 }
 \examples{
-#' chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+
+segments <- data(TCGA_BRCA_CN_segments)
+chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+
 results <- DRrefit(segments,chrlist = chr_list)
 DRrefit_report <- results$report
 segments_refitted <- results$segments_corrected
-DRrefit_plot(segments_refitted,DRrefit_report,plot_path)
+
+DRrefit_plot(segments_refitted,DRrefit_report, plot_viewer= TRUE, plot_save = FALSE)
 
 
 }

@@ -22,8 +22,9 @@ Return two data frames, one is the DRrefit-corrected segments and the other is t
 This function refits the diploid region of input copy number profiles (segments - BED file)
 }
 \examples{
-data(segments)
+segments <- data("TCGA_BRCA_CN_segments")
 chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+
 results <- DRrefit(segments,chrlist = chr_list)
 results$report
 results$segments_corrected

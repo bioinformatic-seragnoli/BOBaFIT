@@ -21,7 +21,7 @@
 #' @importFrom stringr str_sort
 #'
 #' @examples
-#' data(segments)
+#' data(TCGA_BRCA_CN_segments)
 #' Cluster <- PlotChrCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
 #' Cluster$report
 #' Cluster$plot_table

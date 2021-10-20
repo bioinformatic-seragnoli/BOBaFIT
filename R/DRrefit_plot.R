@@ -1,9 +1,11 @@
 #' DRrefit_plot
 #'
-#' @param segments_refitted DRrefit output dataframe 
-#' @param DRrefit_report  DRrefit output dataframe 
-#' @param plot_format file format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tif")
-#' @param plot_path path to save output plots
+#' @param segments_refitted DRrefit output dataframe. 
+#' @param DRrefit_report  DRrefit output dataframe.
+#' @param plot_viewer Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is FALSE.
+#' @param plot_save  Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.
+#' @param plot_format File format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tiff").
+#' @param plot_path Path to save output plots.
 #'
 #' @return
 #' @export
@@ -16,41 +18,41 @@
 #' @importFrom dplyr filter 
 #'
 #' @examples
-#' #' chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+#' 
+#' segments <- data(TCGA_BRCA_CN_segments)
+#' chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
+#' 
 #' results <- DRrefit(segments,chrlist = chr_list)
 #' DRrefit_report <- results$report
 #' segments_refitted <- results$segments_corrected
-#' DRrefit_plot(segments_refitted,DRrefit_report,plot_path)
+#' 
+#' DRrefit_plot(segments_refitted,DRrefit_report, plot_viewer= TRUE, plot_save = FALSE)
 #' 
 #' 
 
 DRrefit_plot <- function(segments_refitted,
                          DRrefit_report,
+                         plot_viewer=FALSE,
+                         plot_save = TRUE,
                          plot_format = "png",
-                         plot_path) {
+                         plot_path
+                         ) {
   
   samples <- unique(segments_refitted$ID)
-  i=1
+  
   for (i in seq_along(samples)) {
     
     segments <- segments_refitted %>%  filter(ID==samples[i])
     
-    report_samp <- DRrefit_report %>%  filter(sample== samples[i])
+    report_samp <- report %>%  filter(sample== samples[i])
     
     Granges_segments <- makeGRangesFromDataFrame(segments, keep.extra.columns = TRUE)
     
     chromosome_list <- report_samp$ref_clust_chr
     correction_factor <- report_samp$correction_factor
     
-    if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_",clust_method,".png"), width = 16, height = 4, units = "in", res = 300 ) 
-    } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_",clust_method,".tif"), width = 16, height = 4, units = "in", res = 300 )
-    } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_",clust_method,".pdf"), width = 16, height = 4 )
-    } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],"_",clust_method,".jpg"), width = 16, height = 4, units = "in", res = 300 ) 
-    } else { message("wrong plot format") 
-      break}
     
-    print(
-      ggplot(Granges_segments) +
+    gg <- ggplot(Granges_segments) +
       ggtitle(paste0("Sample name: ",samples[i]),
               subtitle = paste0("Correction factor= ", correction_factor %>% round(3)," / diploid chrs: ", chromosome_list)) +
       geom_segment(stat="identity", aes(y=CN, colour="old_CN"), size = 1.2, alpha=0.7) +
@@ -69,10 +71,27 @@ DRrefit_plot <- function(segments_refitted,
       } else {
         scale_color_manual(values=c("orange", "red3"))
       }
-    )
     
-    options(ggplot2. ="viridis")
+    if(plot_save ==TRUE){
+      
+      if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],".png"), width = 16, height = 4, units = "in", res = 300 ) 
+      } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],".tif"), width = 16, height = 4, units = "in", res = 300 )
+      } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],".pdf"), width = 16, height = 4 )
+      } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],".jpg"), width = 16, height = 4, units = "in", res = 300 ) 
+      } else { message("wrong plot format") 
+        break}
+      
+      print(gg)
+      
+      
+      dev.off()
+    }
     
-    dev.off()
+    
+    if(plot_viewer==TRUE){
+      print(gg)
+    }
+    
+    
   }
 }

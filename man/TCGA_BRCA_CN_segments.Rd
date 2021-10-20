@@ -9,9 +9,9 @@ Dataset downloaded from TCGA databases, it is composed by Breast Cancer (BRCA) s
 }
 \usage{data("segments")}
 \format{
-  A data frame with 55778 observations on the following 7 variables.
+  A data frame with 79,607  observations and 7 variables.
 \describe{
- \item{\code{arm}}{a character vector with the chromosomal arm of segment}
+
  \item{\code{chr}}{a numeric vector with the chromosome of the segment}
  \item{\code{start}}{a numeric vector with the segment start}
  \item{\code{end}}{a numeric vector with the segment end}
@@ -21,6 +21,9 @@ Dataset downloaded from TCGA databases, it is composed by Breast Cancer (BRCA) s
  \item{\code{Num_Probes}}{a numeric vector with the number of probes}
  \item{\code{Segment_mean}}{a numeirc vector with mthe mean signal of the probes}
  \item{\code{Sample}}{a charcter vector with the TCGA-BRCA barcode}
+ \item{\code{arm}}{a character vector with the chromosomal arm of segment}
+ \item{\code{chrarm}}{a character vector both chromosomal information}
+\item{\code{CN}}{a numeric vector with the Copy Number value of the segment}
   }
 }
 

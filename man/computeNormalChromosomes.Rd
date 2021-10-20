@@ -30,6 +30,6 @@ vector with chromosome names and plot with the alteration rate of each chromosom
 This function compute the DRrefits' input "chromosome list". It is a vector that contains the chromosomal arms considered "normal" in the cohort of samples tested (BED file), under a specific tolerance value
 }
 \examples{
-data(segments)
-computeNormalChromosomes(segments)
+segments <- data("TCGA_BRCA_CN_segments")
+chr_list <- computeNormalChromosomes(segments)
 }

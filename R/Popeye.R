@@ -13,7 +13,9 @@
 #' 
 #' 
 #' @examples
-#' data <- Popeye(segments)
+#' data("TCGA_BRCA_CN_segments")
+#' data <- TCGA_BRCA_CN_segments[1:9] #as it already presents the arm column
+#' data_annotated <- Popeye(segments = data)
 
 Popeye <- function(segments) {
   

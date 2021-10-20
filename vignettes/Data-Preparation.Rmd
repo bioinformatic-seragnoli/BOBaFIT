@@ -1,0 +1,106 @@
+---
+title: "Data preparation using TCGA-BRCA database"
+author:
+- name: Gaia Mazzocchetti
+  affiliation: University of Bologna - DIMES
+  email: bioinformatics.seragnoli@gmail.com
+package: BOBaFIT
+output:
+  BiocStyle::html_document
+abstract: |
+  Best practise to download and prepare TCGA-BRCA dataset for BOBaFIT's analysis
+vignette: |
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r style, eval=TRUE, echo = FALSE, results = 'asis'}
+BiocStyle::latex()
+```
+
+# Introduction
+
+The data preparation is an important step before the BOBaFIT analysis. In this vignete we will explain how to download the TCGA-BRCA dataset[@Tomczak2015] the package TCGAbiolink [@Colaprico2016] and how to add information like chromosomal arm and CN value of each segments, which operating principle of the package. Further, here we show the column names of the input file for all the BOBaFIT function.
+
+# Download from TCGA
+
+To download the TCGCA-BRCA[@Tomczak2015], we used the R package TCGAbiolinks [@Colaprico2016]and we construct the query. The query includs Breast Cancer samples analyzed by SNParray method (GenomeWide_SNP6), obtaining their Copy Number (CN) profile.
+
+```{r TCGA download, eval=FALSE}
+BiocManager::install("TCGAbiolinks")
+library(TCGAbiolinks)
+
+query <- GDCquery(project = "TCGA-BRCA",
+                  data.category = "Copy Number Variation",
+                  data.type = "Copy Number Segment",
+                  sample.type = "Primary Tumor"
+                  )
+
+#Selecting first 100 samples using the TCGA barcode 
+subset <- query[[1]][[1]]
+barcode <- subset$cases[1:100]
+
+TCGA_BRCA_CN_segments <- GDCquery(project = "TCGA-BRCA",
+                  data.category = "Copy Number Variation",
+                  data.type = "Copy Number Segment",
+                  sample.type = "Primary Tumor",
+                  barcode = barcode
+)
+
+GDCdownload(TCGA_BRCA_CN_segments, method = "api", files.per.chunk = 50)
+
+#prepare a data.frame where working
+data <- GDCprepare(TCGA_BRCA_CN_segments)#e = TRUE, save.filename= "TCGA_BRCA_CN_segments.txt")
+ 
+```
+
+In the last step, a dataframe with the segments of all samples is prepared. However some information are missing, so the dataset is not ready as BOBaFIT input.
+
+# Columns preparation
+
+Further, here we show the **column names** of the input file for all the BOBaFIT function.
+
+```{r Column preparation, eval=FALSE}
+names(data)
+BOBaFIT_names <- c("ID", "chr", "start", "end", "Num_Probes", "Segment_Mean","Sample")
+names(data)<- BOBaFIT_names
+names(data)
+```
+
+# Assign the chromosome arm with Popeye
+
+The arm column is an very important information that support the diploid region check of`DRrefit` and the chromosome list computation of `ComputeNormalChromosome`. As it is lacking in the TCGA-BRCAdataset, the function `Popeye`has been specially designed to calculate which chromosomal arm the segment belongs to. Thanks to this algorithm, not only the TCGA-BRCA dataset, but any database you want to analyze can be analyzed by any function of BOBaFIT.
+
+```{r tcga load, include=FALSE}
+library(BOBaFIT)
+data("TCGA_BRCA_CN_segments")
+data <- TCGA_BRCA_CN_segments[1:9]
+
+```
+
+```{r Popeye, echo=TRUE, message=FALSE}
+library(BOBaFIT)
+segments <- Popeye(data)
+knitr::kable(head(segments))
+```
+
+# Calculation of the Copy Number
+
+The last step is the computation of the copy number value from the "`Segment_Mean`" column (logR), with the following formula. At this point the data is ready to be analyzed by the whole package.
+
+```{r CN, echo=TRUE}
+#When data coming from SNParray platform are used, the user have to apply the compression factor in the formula (0.55). In case of WGS/WES data, the correction factor is equal to 1.
+compression_factor <- 0.55
+segments$CN <- 2^(segments$Segment_Mean/compression_factor + 1)
+
+head(segments)
+
+```
+
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=TRUE, print=TRUE, results='hold', collapse=TRUE, }
+sessionInfo()
+```
