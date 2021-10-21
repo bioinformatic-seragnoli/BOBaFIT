@@ -46,7 +46,7 @@ computeNormalChromosomes <- function(segments, tolerance_val = 0.15, maxCN= 6, m
   }
 
   result <- (table(all_chromosome$chrarm)/length(samples) )
-  result_filtered <- result[result > 1 - tollerance_val]
+  result_filtered <- result[result > 1 - tolerance_val]
 
 
 
@@ -54,8 +54,8 @@ computeNormalChromosomes <- function(segments, tolerance_val = 0.15, maxCN= 6, m
   df$arm <- df$arm %>% factor(levels = str_sort(df$arm, numeric = TRUE))
   print(
     ggplot(df, aes(x=arm, y=alteration_rate)) +
-      geom_bar(stat = "identity", aes( fill= alteration_rate > tollerance_val)) +
-      geom_hline(yintercept = tollerance_val, colour= "black", linetype= 2)+
+      geom_bar(stat = "identity", aes( fill= alteration_rate > tolerance_val)) +
+      geom_hline(yintercept = tolerance_val, colour= "black", linetype= 2)+
       geom_text( aes(label= round(alteration_rate, 2), vjust = 1.4))+
       scale_fill_manual(values = c("#1E90FF","#FF4040")) + 
       theme(legend.position="bottom")+
