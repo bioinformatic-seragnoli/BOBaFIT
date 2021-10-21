@@ -30,7 +30,7 @@ DRrefit <- function(segments_chort,
                     maxCN = 6,
                     clust_method = "ward.D2") {
 
-  ward.D2 <- ID <- arm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
+  ward.D2 <- ID <- chrarm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
   OUTPUT <- list()
 
   segments_chort$CN[segments_chort$CN == Inf] <- maxCN
@@ -52,7 +52,7 @@ DRrefit <- function(segments_chort,
     segments <- segments_chort %>%  filter(ID==samples[i])
 
     CN_CHR <- segments %>%
-      group_by(arm) %>%
+      group_by(chrarm) %>%
       summarise(weighted_mean_CN = weighted.mean(CN, w = width), .groups = 'drop')
 
 
@@ -65,7 +65,7 @@ DRrefit <- function(segments_chort,
       ClustRes <- NbClust(CN_CHR_values, distance = "euclidean", method = clust_method, index = "all", min.nc = 2, max.nc = 6)
 
 
-      CLUST_TABLE <- data.frame(chr=CN_CHR$arm, cluster=ClustRes$Best.partition, stringsAsFactors = FALSE)
+      CLUST_TABLE <- data.frame(chr=CN_CHR$chrarm, cluster=ClustRes$Best.partition, stringsAsFactors = FALSE)
 
 
       CLUST_TABLE_in_list_sorted <- CLUST_TABLE %>%
@@ -116,12 +116,12 @@ DRrefit <- function(segments_chort,
     }
 
 
-    segments_REF <- segments %>% filter(arm %in% new_chrlist)
+    segments_REF <- segments %>% filter(chrarm %in% new_chrlist)
 
-    segments_REF <- segments %>% filter(arm %in% new_chrlist)
+    segments_REF <- segments %>% filter(chrarm %in% new_chrlist)
 
     CN_CHR_REF <- segments_REF %>%
-      group_by(arm) %>%
+      group_by(chrarm) %>%
       summarise(weighted_mean_CN = weighted.mean(CN, w = width), .groups = 'drop')
 
     real_diploid_region <-  median(CN_CHR_REF$weighted_mean_CN)

@@ -33,7 +33,7 @@ PlotChrCluster <- function(segs,
   report_clustering <- data.frame(sample = character(),
                                   clustering = character(),
                                   num_clust = numeric())
-  ID <- arm <- CN <- width <- str_sort <- chr <- cluster <- NULL
+  ID <- chrarm <- CN <- width <- str_sort <- chr <- cluster <- NULL
 
   CLUST_TABLE_LIST <- list()
 
@@ -46,7 +46,7 @@ PlotChrCluster <- function(segs,
     segments <- segs %>%  filter(ID == samples[i])
 
     CN_CHR <- segments %>%
-      group_by(arm) %>%
+      group_by(chrarm) %>%
       summarise(weighted_mean_CN = weighted.mean(CN, w = width),
                 .groups = 'drop')
 
@@ -65,7 +65,7 @@ PlotChrCluster <- function(segs,
         )
       CLUST_TABLE <-
         data.frame(
-          chr = CN_CHR$arm,
+          chr = CN_CHR$chrarm,
           cluster = ClustRes$Best.partition,
           CN = CN_CHR_values,
           stringsAsFactors = FALSE

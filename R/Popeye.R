@@ -7,10 +7,9 @@
 #' @export
 #' 
 #' @importFrom tidyr %>%
-#' @importFrom GenomicRanges makeGRangesFromDataFrame
+#' @importFrom GenomicRanges makeGRangesFromDataFrame seqnames start end
 #' @importFrom dplyr filter arrange rename
 #' @importFrom plyranges join_overlap_intersect
-#' @importFrom GenomicRanges seqnames start end 
 #' 
 #' 
 #' @examples
@@ -35,7 +34,7 @@ Popeye <- function(segments) {
   arms <- chrtab$chrarm %>% unique()
   
   annot_data <- data.frame()
-  
+  i=1
   for( i in seq_along(arms)){
     
     message(i, " - arm: ", arms[i])
@@ -58,7 +57,7 @@ Popeye <- function(segments) {
 
   annot_data_sort <- annot_data %>% arrange(ID, seqnames, start)
   
-  OUTPUT <- annot_data_sort %>% rename("seqnames"="chr")
+  OUTPUT <- annot_data_sort %>% rename("chr"="seqnames")
   OUTPUT
   
 }

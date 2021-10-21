@@ -11,7 +11,7 @@
 #' @importFrom dplyr filter group_by summarise arrange
 #' @importFrom tidyr %>%
 #' @importFrom stats weighted.mean
-#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot scale_fill_manual labs
+#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot scale_fill_manual
 #' @importFrom stringr str_sort
 #'
 #'
@@ -26,46 +26,42 @@
 
 computeNormalChromosomes <- function(segments, tolerance_val = 0.15, maxCN= 6, min_threshold= 1.60, max_threshold=2.40) {
 
-  
-  ID <- chrarm <- weighted.mean <- CN <- width <- weighted_mean_CN <- normal_frequency <- NULL
+  ID <- chrarm <- weighted.mean <- CN <- width <- weighted_mean_CN <- alteration_rate <- NULL
   samples <- segments$ID%>% unique()
   segments$CN[segments$CN > 6] <- maxCN
-  
-  segments$width <- segments$end - segments$start
-  
+
   all_chromosome <- data.frame()
-  
-  i=1
+
   for (i in seq_along(samples)) {
-    print(paste0( i," - ",samples[i]))
+    message(i," - ",samples[i])
     segments_sample <- segments %>% filter(ID == samples[i])
-    
+
     CN_CHR <- segments_sample %>%
       group_by(chrarm) %>%
       summarise(weighted_mean_CN = weighted.mean(CN, w = width),.groups = 'drop_last') %>%
       filter(weighted_mean_CN <= max_threshold & weighted_mean_CN >= min_threshold)
-    
+
     all_chromosome <- rbind(all_chromosome, CN_CHR)
-    
+
   }
-  
+
   result <- (table(all_chromosome$chrarm)/length(samples) )
-  result_filtered <- result[result > 1 - tolerance_val]
-  
-  
-  
-  df <- data.frame(chrarm=names(result), alteration_rate= as.numeric(1- result), observations= table(all_chromosome$chrarm))
-  df$chrarm <- df$chrarm %>% factor(levels = str_sort(df$chrarm, numeric = TRUE))
+  result_filtered <- result[result > 1 - tollerance_val]
+
+
+
+  df <- data.frame(arm=names(result), alteration_rate= as.numeric(1- result), observations= table(all_chromosome$chrarm))
+  df$arm <- df$arm %>% factor(levels = str_sort(df$arm, numeric = TRUE))
   print(
-    ggplot(df, aes(x=chrarm, y=alteration_rate)) +
-      geom_bar(stat = "identity", aes( fill= alteration_rate > tolerance_val)) +
-      geom_hline(yintercept = tolerance_val, colour= "black", linetype= 2)+
+    ggplot(df, aes(x=arm, y=alteration_rate)) +
+      geom_bar(stat = "identity", aes( fill= alteration_rate > tollerance_val)) +
+      geom_hline(yintercept = tollerance_val, colour= "black", linetype= 2)+
       geom_text( aes(label= round(alteration_rate, 2), vjust = 1.4))+
-      scale_fill_manual(values = c("#1E90FF","#FF4040"))+
+      scale_fill_manual(values = c("#1E90FF","#FF4040")) + 
+      theme(legend.position="bottom")+
       labs(y="Alteration Rate (%)", x = "Chromosomal arm")
-    
   )
-  
+
   names(result_filtered)
-  
+
 }

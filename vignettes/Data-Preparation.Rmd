@@ -95,7 +95,7 @@ The last step is the computation of the copy number value from the "`Segment_Mea
 compression_factor <- 0.55
 segments$CN <- 2^(segments$Segment_Mean/compression_factor + 1)
 
-head(segments)
+knitr::kable(head(segments))
 
 ```
 
