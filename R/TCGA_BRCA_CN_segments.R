@@ -1,0 +1,20 @@
+#' Segments of 100 Breast Cancer samples, downloaded from TCGA-BRCA.
+#'
+#'
+#' @format A data frame with79,607 rows and 12 variables:
+#' \describe{
+#'   \item{chr}{Chrosome which the segment belong}
+#'   \item{start}{Starting point of the segment, in Mb}
+#'   \item{end}{Ending point of the segment, in Mb}
+#'   \item{width}{Width of the segment, in Mb}
+#'   \item{strand}{Strand of the segment}
+#'   \item{ID}{Sample name}
+#'   \item{Num_Probes}{Probes involved}
+#'   \item{Segment_Mean}{LogR of the segments}
+#'   \item{Sample}{Barcode of tCGA-BRCA database}
+#'   \item{arm}{Arm information, p o q}
+#'   \item{chrarm}{Chromosomal arm which the segment belong}
+#'   \item{CN}{Segments Copy Number value obtained by the logR }
+#' }
+#' @source \url{https://portal.gdc.cancer.gov/projects/TCGA-BRCA}
+"TCGA_BRCA_CN_segments"

@@ -28,7 +28,7 @@ The package checks the diploid region assessment working on pre-estimated segmen
 
 ```{r load data, echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
 library(BOBaFIT)
-data("TCGA_BRCA_CN_segments.RData")
+data("TCGA_BRCA_CN_segments")
 #it is very important to have the same colomn names
 knitr::kable(head(TCGA_BRCA_CN_segments))
 ```
@@ -73,9 +73,17 @@ As said before, `DRrefit` estimates the right diploid region using two operating
 
 In this example, the `TCGA_BRCA_CN_segments`data table and the `chr_list` previously generated are used. The default value of `maxCN` (6) and `clust_method` (ward.d2) are used.
 
-```{r DRrefit, message=FALSE}
+```{r DRrefit, eval=FALSE}
 results <- DRrefit (segments_chort = TCGA_BRCA_CN_segments, chrlist = chr_list)
 
+```
+
+```{r DRrefit_test, include=FALSE}
+library(dplyr)
+samples <- TCGA_BRCA_CN_segments$ID %>% unique()
+sample_test <- samples[1:5]
+test <- TCGA_BRCA_CN_segments %>% filter(ID %in% sample_test)
+results <- DRrefit (segments_chort = test, chrlist = chr_list)
 ```
 
 ### The Dataframes
@@ -83,7 +91,7 @@ results <- DRrefit (segments_chort = TCGA_BRCA_CN_segments, chrlist = chr_list)
 -   The data frame `segments corrected` reports the CN corrected of the segments by the correction factor (CR) - value estimated for each sample by the function to correct the diploid region-
 
 ```{r Call segments DRrefit 1}
-knitr::kable(head(results$segments_corrected))
+knitr::kable(head(results$segments_corrected)) 
 ```
 
 It is similar to the input one and report the new CN value of each segment calculated by DRrefit (`CN_corrected`).
@@ -91,7 +99,7 @@ It is similar to the input one and report the new CN value of each segment calcu
 -   The data frame `report` contains all the information about the clustering as the outcome,the number of clusters found in that sample, the chromosome list and the CR used for the adjustment of the diploid region. Sample are also divided in three classes, based on their CR: No changes (CR\<0.1); Recalibrated (0.1\<CR\<0.5); Refitted (CR \>0.5). The class label is also reported in the data frame `report`.
 
 ```{r Call report DRrefit 2, echo=FALSE}
- knitr::kable(head(results$report))
+knitr::kable(head(results$report)) 
 
 ```
 
@@ -130,10 +138,17 @@ Based on the CR value two plots can be displayed:
 
 Another accessory function is `PlotChrCluster`. It can be used to visualize the chromosomal cluster in a single sample or in a sample cohort. The input data is always a .tsv file, as the data frame `TCGA_BRCA_CN_segments`. The option of `clust_method` argument are the same of `DRrefit`("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid" and "kmeans").
 
-```{r PlotChrCluster, message=FALSE, warning=FALSE}
+```{r PlotChrCluster, eval=FALSE}
 Cluster <- PlotChrCluster(segs = TCGA_BRCA_CN_segments,
                        clust_method = "ward.D2",
+                       plot_output= TRUE)
+```
+
+```{r PlotChrCluster_test, include=FALSE}
+Cluster <- PlotChrCluster(segs = test,
+                       clust_method = "ward.D2",
                        plot_output= FALSE)
+
 ```
 
 We suggest to store the output on a variable (in this example we use `Cluster`) to view and possibly save the data frame generated. The `PlotCuster` will automatically save the plot in the folder indicated by the variable `path` of the argument `plot_path`.
@@ -146,15 +161,16 @@ In the `PlotChrCluster` plot, the chromosomal arms are labeled and colored accor
 
 The output `report` is a data frame which reports for each sample the clustering outcome (fail or succeeded) and the number of clusters for each sample analyzed.
 
-```{r Call report PlotChrCluster 3, echo=FALSE}
-knitr::kable(head(Cluster$report))
+```{r Call report PlotChrCluster 3}
+knitr::kable(head(Cluster$report)) 
 
 ```
 
 The second output that will be stored in the Cluster variable is a list of data frames, one for each sample analyzed, where are reported the information about the plot.
 
-```{r  Call sample table 2,echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
-knitr::kable(head(Cluster$plot_tables$SAMPLE_1))
+```{r  Call sample table 2}
+#select the sample name
+knitr::kable(head(Cluster$plot_tables$`01428281-1653-4839-b5cf-167bc62eb147`)) 
 ```
 
 # Session info {.unnumbered}
