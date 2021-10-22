@@ -24,7 +24,7 @@
 #' results <- DRrefit(segments,chrlist = chr_list)
 #' results$report
 #' results$segments_corrected
-TCGA_BRCA_CN_segments <- segments
+
 DRrefit <- function(segments_chort,
                     chrlist,
                     maxCN = 6,
