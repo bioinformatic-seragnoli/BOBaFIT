@@ -18,6 +18,7 @@
 #' data_annotated <- Popeye(segments = data)
 
 Popeye <- function(segments) {
+  chr <- ID <- NULL
   
   segments <- segments %>% filter(!chr %in% c("X", "Y"))
   

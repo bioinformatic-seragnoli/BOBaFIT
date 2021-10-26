@@ -18,15 +18,19 @@
 #' @importFrom dplyr filter 
 #'
 #' @examples
+#' data("TCGA_BRCA_CN_segments")
 #' 
-#' segments <- data(TCGA_BRCA_CN_segments)
 #' chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","7p" )
 #' 
-#' results <- DRrefit(segments,chrlist = chr_list)
-#' DRrefit_report <- results$report
-#' segments_refitted <- results$segments_corrected
+#' results <- DRrefit(segments_chort = TCGA_BRCA_CN_segments, chrlist = chr_list)
+#'                    
+#' my_segments <- results$segments_corrected
+#' my_report <- results$report
 #' 
-#' DRrefit_plot(segments_refitted,DRrefit_report, plot_viewer= TRUE, plot_save = FALSE)
+#' DRrefit_plot(segments_refitted = my_segments,
+#'              DRrefit_report = my_report, 
+#'              plot_viewer= FALSE, 
+#'              plot_save = FALSE)
 #' 
 #' 
 
@@ -36,7 +40,9 @@ DRrefit_plot <- function(segments_refitted,
                          plot_save = TRUE,
                          plot_format = "png",
                          plot_path
-                         ) {
+) {
+  
+
   
   samples <- unique(segments_refitted$ID)
   
@@ -44,7 +50,7 @@ DRrefit_plot <- function(segments_refitted,
     
     segments <- segments_refitted %>%  filter(ID==samples[i])
     
-    report_samp <- report %>%  filter(sample== samples[i])
+    report_samp <- DRrefit_report %>%  filter(sample== samples[i])
     
     Granges_segments <- makeGRangesFromDataFrame(segments, keep.extra.columns = TRUE)
     

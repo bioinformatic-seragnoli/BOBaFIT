@@ -19,40 +19,41 @@
 #' @importFrom grDevices png dev.off
 #' @importFrom tidyr %>%
 #' @importFrom stringr str_sort
+#' @importFrom methods is
 #'
 #' @examples
 #' data(TCGA_BRCA_CN_segments)
-#' Cluster <- PlotChrCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
-#' Cluster$report
-#' Cluster$plot_table
+#' Cluster <- PlotChrCluster(segs=TCGA_BRCA_CN_segments, 
+#'                          clust_method= "ward.D2", 
+#'                          plot_output=FALSE)
 
 PlotChrCluster <- function(segs,
-                        clust_method = "ward.D2",
-                        plot_output= FALSE,
-                        plot_path) {
+                           clust_method = "ward.D2",
+                           plot_output= FALSE,
+                           plot_path) {
   report_clustering <- data.frame(sample = character(),
                                   clustering = character(),
                                   num_clust = numeric())
   ID <- chrarm <- CN <- width <- str_sort <- chr <- cluster <- NULL
-
+  
   CLUST_TABLE_LIST <- list()
-
-
+  
+  
   samples <- segs$ID %>% unique()
-
+  
   for (i in seq_along(samples)) {
     cat("sample n: ", i, " - ", samples[i], "\n")
-
+    
     segments <- segs %>%  filter(ID == samples[i])
-
+    
     CN_CHR <- segments %>%
       group_by(chrarm) %>%
       summarise(weighted_mean_CN = weighted.mean(CN, w = width),
                 .groups = 'drop')
-
+    
     CN_CHR_values <- CN_CHR$weighted_mean_CN
-
-
+    
+    
     TRY <- try({
       ClustRes <-
         NbClust(
@@ -70,68 +71,68 @@ PlotChrCluster <- function(segs,
           CN = CN_CHR_values,
           stringsAsFactors = FALSE
         )
-
+      
     })
-
-
+    
+    
     if (is(TRY, "try-error")) {
       message("Clustering failed")
       samp_report <- data.frame(sample = samples[i],
                                 clustering = "SUCCEDED",
                                 num_clust = NA)
-
+      
     } else {
       message("Clustering succeded")
-
+      
       samp_report <- data.frame(
         sample = samples[i],
         clustering = "SUCCEDED",
         num_clust = max(ClustRes$Best.partition)
       )
-
-
+      
+      
       CLUST_TABLE$chr <-
         CLUST_TABLE$chr %>% factor(levels = str_sort(CLUST_TABLE$chr, numeric = TRUE),
                                    ordered = TRUE)
-
+      
       CLUST_TABLE$cluster <- paste0("cluster", CLUST_TABLE$cluster)
-
+      
       CLUST_TABLE <- CLUST_TABLE %>% arrange(chr)
-
+      
       if (plot_output == TRUE) {
-
-      png(
-        paste0(plot_path, samples[i], "_PlotChrCluster.png"),
-        width = 16,
-        height = 4,
-        units = "in",
-        res = 300
-      )
-
-      print(
-        ggplot(CLUST_TABLE, aes(
-          x = seq_len(nrow(CLUST_TABLE)),
-          y = CN,
-          colour = cluster
-        )) +
-          ylim(0,5) +
-          geom_mark_ellipse(aes(fill = cluster)) +
-          geom_hline(yintercept = 2, alpha = 0.5) +
-          geom_point(size = 2) +
-          geom_label(aes(label = chr), nudge_y = 0.1) +
-          ggtitle(samples[i])
-      )
-      options(ggplot2. = "viridis")
-      dev.off()
+        
+        png(
+          paste0(plot_path, samples[i], "_PlotChrCluster.png"),
+          width = 16,
+          height = 4,
+          units = "in",
+          res = 300
+        )
+        
+        print(
+          ggplot(CLUST_TABLE, aes(
+            x = seq_len(nrow(CLUST_TABLE)),
+            y = CN,
+            colour = cluster
+          )) +
+            ylim(0,5) +
+            geom_mark_ellipse(aes(fill = cluster)) +
+            geom_hline(yintercept = 2, alpha = 0.5) +
+            geom_point(size = 2) +
+            geom_label(aes(label = chr), nudge_y = 0.1) +
+            ggtitle(samples[i])
+        )
+        options(ggplot2. = "viridis")
+        dev.off()
       }
-
+      
     }
-
-
+    
+    
     report_clustering <- rbind(report_clustering, samp_report)
-
+    
     CLUST_TABLE_LIST [[samples[i]]] <- CLUST_TABLE
-
+    
   }
   OUTPUT <-
     list(report = report_clustering , plot_tables = CLUST_TABLE_LIST)

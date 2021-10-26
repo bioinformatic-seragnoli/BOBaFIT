@@ -23,7 +23,7 @@ The function clusters chromosomes based on the copy number (CN) and returns a gr
 }
 \examples{
 data(TCGA_BRCA_CN_segments)
-Cluster <- PlotChrCluster(segs=segments, clust_method= "ward.D2", plot_output=FALSE)
-Cluster$report
-Cluster$plot_table
+Cluster <- PlotChrCluster(segs=TCGA_BRCA_CN_segments, 
+                         clust_method= "ward.D2", 
+                         plot_output=FALSE)
 }
