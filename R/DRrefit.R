@@ -33,19 +33,17 @@ DRrefit <- function(segments_chort,
                     clust_method = "ward.D2") {
   
   ward.D2 <- ID <- chrarm <- CN <- width <- chr <- cluster <- CN_corrected <- number <- NULL
+  
   OUTPUT <- list()
+  
+  segments_chort_corrected_list <- list()
+  
+  report_clustering_list <- list()
   
   segments_chort$CN[segments_chort$CN == Inf] <- maxCN
   
   samples <- segments_chort$ID %>% unique()
   
-  segments_chort_corrected <- data.frame()
-  report_clustering <- data.frame(sample=character(),
-                                  clustering=character(),
-                                  ref_clust_chr=character(),
-                                  num_clust=numeric(),
-                                  correction_factor=numeric(),
-                                  correction_class= character())
   
   for (i in seq_along(samples)){
     
@@ -135,20 +133,22 @@ DRrefit <- function(segments_chort,
     samp_report$correction_class <- ifelse(correction_factor > 0.5, "REFITTED",
                                            ifelse(correction_factor <= 0.1, "NO CHANGES", "RECALIBRATED"))
     
-    report_clustering <- rbind(report_clustering, samp_report)
+    report_clustering_list [[i]]<- samp_report
     
     segments$CN_corrected <- segments$CN + correction_factor
     
     segments$CN_corrected <- ifelse(segments$CN_corrected < 0, 0.001, segments$CN_corrected)
     
+    segments_chort_corrected_list[[i]] <- segments
     
-    segments_chort_corrected <- rbind(segments_chort_corrected, segments)
   }
   
-  segments_chort_corrected
+  segments_chort_corrected_df <- Reduce(rbind, segments_chort_corrected_list)
+  report_clustering_df <- Reduce(rbind, report_clustering_list)
   
-  OUTPUT[["segments_corrected"]] <- segments_chort_corrected
-  OUTPUT[["report"]] <- report_clustering
+  OUTPUT[["segments_corrected"]] <- segments_chort_corrected_df
+  OUTPUT[["report"]] <- report_clustering_df
   
   OUTPUT
 }
+
