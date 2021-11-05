@@ -1,7 +1,7 @@
 Package: BOBaFIT
 Type: Package
 Title: Refitting diploid region profiles using a clustering procedure
-Version: 0.99.13
+Version: 0.99.14
 Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", 
       role=c("aut")),
       person("Gaia", "Mazzocchetti", email="bioinformatic.seragnoli@gmail.com", 
@@ -38,8 +38,9 @@ Suggests:
     markdown,
     BiocStyle,
     knitr,
-    testthat,
-    utils
+    testthat (>= 3.0.0),
+    utils,
+    testthat
 Config/testthat/edition: 3
 biocViews: CopyNumberVariation, Clustering, Visualization, Normalization, 
     Software
