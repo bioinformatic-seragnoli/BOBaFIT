@@ -20,6 +20,7 @@
 #' @importFrom tidyr %>%
 #' @importFrom stringr str_sort
 #' @importFrom methods is
+#' @importFrom utils capture.output
 #'
 #' @examples
 #' data(TCGA_BRCA_CN_segments)
@@ -55,23 +56,23 @@ PlotChrCluster <- function(segs,
     
     
     TRY <- try({
-      ClustRes <-
+      capture.output(ClustRes <-
         NbClust(
           CN_CHR_values,
           distance = "euclidean",
           method = clust_method,
           index = "all",
           min.nc = 2,
-          max.nc = 6
-        )
-      CLUST_TABLE <-
+          max.nc = 6))
+      
+        CLUST_TABLE <-
         data.frame(
           chr = CN_CHR$chrarm,
           cluster = ClustRes$Best.partition,
           CN = CN_CHR_values,
           stringsAsFactors = FALSE
-        )
-      
+        
+      )
     })
     
     
