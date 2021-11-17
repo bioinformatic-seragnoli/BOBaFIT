@@ -4,7 +4,13 @@
 \alias{DRrefit}
 \title{DRrefit}
 \usage{
-DRrefit(segments_chort, chrlist, maxCN = 6, clust_method = "ward.D2")
+DRrefit(
+  segments_chort,
+  chrlist,
+  maxCN = 6,
+  clust_method = "ward.D2",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{segments_chort}{data.frame formatted with correct column names}
@@ -14,6 +20,8 @@ DRrefit(segments_chort, chrlist, maxCN = 6, clust_method = "ward.D2")
 \item{maxCN}{threshold of max copy number to consider. By default is 6}
 
 \item{clust_method}{clustering method. By default is "ward.D2"}
+
+\item{verbose}{print information about the processes of the function. By default is FALSE}
 }
 \value{
 Return two data frames, one is the DRrefit-corrected segments and the other is the samples report. See the vignette for data frame descriptions.
