@@ -4,7 +4,13 @@
 \alias{PlotChrCluster}
 \title{PlotChrCluster}
 \usage{
-PlotChrCluster(segs, clust_method = "ward.D2", plot_output = FALSE, plot_path)
+PlotChrCluster(
+  segs,
+  clust_method = "ward.D2",
+  plot_output = FALSE,
+  plot_path,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{segs}{data.frame with segments of samples. It must be formatted with correct column names (start, end, ID)}
@@ -14,6 +20,8 @@ PlotChrCluster(segs, clust_method = "ward.D2", plot_output = FALSE, plot_path)
 \item{plot_output}{Whether to plot refitted profiles (logical)}
 
 \item{plot_path}{Path to save output plots}
+
+\item{verbose}{print information about the processes of the function. By default is FALSE}
 }
 \value{
 Plot with chromosomes clustered
