@@ -1,19 +1,20 @@
 ---
-title: "Data preparation using TCGA-BRCA database"
-author:
-- name: Gaia Mazzocchetti
-  affiliation: University of Bologna - DIMES
-  email: bioinformatics.seragnoli@gmail.com
-package: BOBaFIT
-output:
-  BiocStyle::html_document
-abstract: |
-  Best practise to download and prepare TCGA-BRCA dataset for BOBaFIT's analysis
+title: "Data preparation using TCGA-BRCA database" 
+author: 
+- name: Gaia Mazzocchetti 
+  affiliation: University of Bologna - DIMES 
+  email: bioinformatics.seragnoli@gmail.com 
+date: "`r Sys.Date()`"
+package: BOBaFIT 
+output: 
+ BiocStyle::html_document 
+abstract: | 
+ Best practise to download and prepare TCGA-BRCA dataset for BOBaFIT's analysis 
 vignette: |
-  %\VignetteIndexEntry{Data preparation using TCGA-BRCA database.Rmd}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-bibliography: references.bib
+ %\VignetteIndexEntry{Data preparation using TCGA-BRCA database.Rmd} 
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8} 
+bibliography: references.bib 
 ---
 
 ```{r style, eval=TRUE, echo = FALSE, results = 'asis'}
@@ -52,7 +53,8 @@ TCGA_BRCA_CN_segments <- GDCquery(project = "TCGA-BRCA",
 GDCdownload(TCGA_BRCA_CN_segments, method = "api", files.per.chunk = 50)
 
 #prepare a data.frame where working
-data <- GDCprepare(TCGA_BRCA_CN_segments)#e = TRUE, save.filename= "TCGA_BRCA_CN_segments.txt")
+data <- GDCprepare(TCGA_BRCA_CN_segments, save = TRUE, 
+		   save.filename= "TCGA_BRCA_CN_segments.txt")
  
 ```
 
@@ -64,7 +66,8 @@ Further, here we show the **column names** of the input file for all the BOBaFIT
 
 ```{r Column preparation, eval=FALSE}
 names(data)
-BOBaFIT_names <- c("ID", "chr", "start", "end", "Num_Probes", "Segment_Mean","Sample")
+BOBaFIT_names <- c("ID", "chr", "start", "end", "Num_Probes", 
+		   "Segment_Mean","Sample")
 names(data)<- BOBaFIT_names
 names(data)
 ```
@@ -83,6 +86,8 @@ data <- TCGA_BRCA_CN_segments[1:9]
 ```{r Popeye, echo=TRUE, message=FALSE}
 library(BOBaFIT)
 segments <- Popeye(data)
+```
+```{r Popeye table, echo=FALSE}
 knitr::kable(head(segments))
 ```
 
@@ -91,16 +96,19 @@ knitr::kable(head(segments))
 The last step is the computation of the copy number value from the "`Segment_Mean`" column (logR), with the following formula. At this point the data is ready to be analyzed by the whole package.
 
 ```{r CN, echo=TRUE}
-#When data coming from SNParray platform are used, the user have to apply the compression factor in the formula (0.55). In case of WGS/WES data, the correction factor is equal to 1.
+#When data coming from SNParray platform are used, the user have to apply the
+#compression factor in the formula (0.55). In case of WGS/WES data, the
+#correction factor is equal to 1.  
 compression_factor <- 0.55
 segments$CN <- 2^(segments$Segment_Mean/compression_factor + 1)
 
+```
+```{r CN table, echo=FALSE}
 knitr::kable(head(segments))
-
 ```
 
 # Session info {.unnumbered}
 
-```{r sessionInfo, echo=TRUE, print=TRUE, results='hold', collapse=TRUE, }
+```{r sessionInfo,echo=FALSE }
 sessionInfo()
 ```

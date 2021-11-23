@@ -1,11 +1,15 @@
 ---
 title: "BOBaFIT"
-author: "Gaia Mazzocchetti"
+author: 
+- name: Gaia Mazzocchetti 
+  affiliation: University of Bologna - DIMES 
+  email: bioinformatics.seragnoli@gmail.com 
 date: "`r Sys.Date()`"
+package: BOBaFIT 
 output: BiocStyle::html_document
-abstract: >
+abstract: |
   Good practices for BOBaFIT package
-vignette: >
+vignette: |
   %\VignetteIndexEntry{BOBaFIT.Rmd}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
@@ -16,7 +20,7 @@ bibliography: references.bib
 BiocStyle::latex()
 ```
 
-# Overview
+# Introduction
 
 The R package BoBafit is composed of four functions which allow the refit and the recalibration of copy number profile of tumor sample. In particular, the package was built to check, and possibly correct, the diploid regions. The wrong diploid region is a phenomenon that very often affects the profiles of samples with a very complex karyotype.
 
@@ -29,8 +33,7 @@ The package checks the diploid region assessment working on pre-estimated segmen
 ```{r load data, echo=FALSE, message=FALSE, paged.print=FALSE, results='asis'}
 library(BOBaFIT)
 data("TCGA_BRCA_CN_segments")
-#it is very important to have the same colomn names
-knitr::kable(head(TCGA_BRCA_CN_segments))
+
 ```
 
 # BOBaFIT Workflow
@@ -52,7 +55,8 @@ With a little dataframe (less than 200 samples), we suggest an alteration rate o
 Here we performed the function in the data set `TCGA_BRCA_CN_segments`, using an alteration rate of 25%.
 
 ```{r computeNormalChromosome, fig.show='hide', include=FALSE, results='hide'}
-chr_list <- computeNormalChromosomes(segments = TCGA_BRCA_CN_segments, tolerance_val = 0.25)
+chr_list <- computeNormalChromosomes(segments = TCGA_BRCA_CN_segments, 
+				     tolerance_val = 0.25)
 ```
 
 ```{r chr_list, results='asis'}
@@ -89,17 +93,25 @@ results <- DRrefit (segments_chort = test, chrlist = chr_list)
 ### The Dataframes
 
 -   The data frame `segments corrected` reports the CN corrected of the segments by the correction factor (CR) - value estimated for each sample by the function to correct the diploid region-
+```{r call output PlotChrCluster code 1, eval=FALSE}
+results$segments_corrected[1,]
+```
 
-```{r Call segments DRrefit 1}
-knitr::kable(head(results$segments_corrected)) 
+```{r Call segments DRrefit 1, echo=FALSE}
+table <- results$segments_corrected[1,] %>% select(chr,start,end, ID, arm, chrarm,CN,CN_corrected)
+knitr::kable(table,digits = 3)
+
 ```
 
 It is similar to the input one and report the new CN value of each segment calculated by DRrefit (`CN_corrected`).
 
 -   The data frame `report` contains all the information about the clustering as the outcome,the number of clusters found in that sample, the chromosome list and the CR used for the adjustment of the diploid region. Sample are also divided in three classes, based on their CR: No changes (CR\<0.1); Recalibrated (0.1\<CR\<0.5); Refitted (CR \>0.5). The class label is also reported in the data frame `report`.
+```{r call output PlotChrCluster code 2, eval=FALSE}
+results$report[1,] 
+```
 
 ```{r Call report DRrefit 2, echo=FALSE}
-knitr::kable(head(results$report)) 
+knitr::kable(results$report[1,]) 
 
 ```
 
@@ -112,13 +124,14 @@ Thanks to the function `DRrefit_plot` is possible appreciate the CN profile befo
 ```{r DRrefit_plot, eval=FALSE}
 segments_corrected <- results$segments_corrected
 report <- results$report
+
 # the plot is diplayed on the R viewer
 DRrefit_plot(segments_refitted = segments_corrected,
              DRrefit_report = report, 
              plot_viewer = TRUE, 
              plot_save = FALSE )
 
-# the plots are saved in a specific path according to the chosen format
+# how to save the plot 
 DRrefit_plot(segments_refitted = segments_corrected,
              DRrefit_report = report, 
              plot_save = TRUE, plot_format = "pdf", plot_path = "/my_path" )
@@ -157,25 +170,26 @@ In the `PlotChrCluster` plot, the chromosomal arms are labeled and colored accor
 
 ![](figure/SAMPLE_100_PlotChrCluster.png){style="text-align: center;" width="100%"}
 
-### The Dataframes
+## The Dataframes
 
-The output `report` is a data frame which reports for each sample the clustering outcome (fail or succeeded) and the number of clusters for each sample analyzed.
+The outputs `report` summarizes the outcome of clustering for each sample (fail or succeeded, the number of clusters), similar to DRrefit report output. The second output, `plot tables`, is a list of data frames (one per sample) and reports in which clustering the chromosomes of the sample have been placed.
+```{r call output PlotChrCluster code, eval=FALSE}
+head(Cluster$report) 
+
+#select plot table per sample
+head(Cluster$plot_tables$`01428281-1653-4839-b5cf-167bc62eb147`) 
+```
 
 ```{r Call report PlotChrCluster 3}
 knitr::kable(head(Cluster$report)) 
 
-```
-
-The second output that will be stored in the Cluster variable is a list of data frames, one for each sample analyzed, where are reported the information about the plot.
-
-```{r  Call sample table 2}
-#select the sample name
+#select plot table per sample
 knitr::kable(head(Cluster$plot_tables$`01428281-1653-4839-b5cf-167bc62eb147`)) 
 ```
 
 # Session info {.unnumbered}
 
-```{r sessionInfo, echo=TRUE, print=TRUE, results='hold', collapse=TRUE, }
+```{r sessionInfo,echo=FALSE}
 sessionInfo()
 ```
 
