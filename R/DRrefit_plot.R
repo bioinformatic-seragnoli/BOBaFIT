@@ -1,10 +1,12 @@
 #' DRrefit_plot
 #'
+#' @description The function plot the copy number profile before and after DRrefit recalibration 
+#'
 #' @param segments_refitted DRrefit output dataframe. 
 #' @param DRrefit_report  DRrefit output dataframe.
 #' @param plot_viewer Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is FALSE.
 #' @param plot_save  Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.
-#' @param plot_format File format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tiff").
+#' @param plot_format File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png" 
 #' @param plot_path Path to save output plots.
 #'
 #' @return Return the sample copy number profile before and after DRrefit recalibration. The function can output the figure in the R viewer on save it in a specific path.

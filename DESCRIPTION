@@ -9,10 +9,10 @@ Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com",
       person("Vincenza", "Solli", email="vincenza.solli2@unibo.it", 
       role=c("aut")))
 Description: This package provides a method to refit and correct the diploid
-region in copy number profiles. It uses a clustering algorithm to identify
-pathology-specific normal (diploid) chromosomes and then use their copy number
-signal to refit the whole profile.  The package is composed by three functions:
-DRrefit (the main function), ComputeNormalChromosome and PlotCluster.  
+ region in copy number profiles. It uses a clustering algorithm to identify
+ pathology-specific normal (diploid) chromosomes and then use their copy number
+ signal to refit the whole profile.  The package is composed by three functions:
+ DRrefit (the main function), ComputeNormalChromosome and PlotCluster.  
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

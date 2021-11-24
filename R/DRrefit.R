@@ -66,7 +66,7 @@ DRrefit <- function(segments_chort,
       TRY <- try({
         
         
-        capture.output(ClustRes <- NbClust(CN_CHR_values, distance = "euclidean", method = clust_method, index = "all", min.nc = 2, max.nc = 6),  type = c("output", "message"))
+        invisible(capture.output(ClustRes <-NbClust(CN_CHR_values, distance = "euclidean", method = clust_method, index = "all", min.nc = 2, max.nc = 6),  type = c("output", "message")))
         
         
         CLUST_TABLE <- data.frame(chr=CN_CHR$chrarm, cluster=ClustRes$Best.partition, stringsAsFactors = FALSE)
@@ -165,7 +165,7 @@ DRrefit <- function(segments_chort,
       TRY <- try({
         
         
-        capture.output(ClustRes <- NbClust(CN_CHR_values, distance = "euclidean", method = clust_method, index = "all", min.nc = 2, max.nc = 6), type =c("output", "message"))
+        invisible(capture.output(ClustRes <- NbClust(CN_CHR_values, distance = "euclidean", method = clust_method, index = "all", min.nc = 2, max.nc = 6), type =c("output", "message")))
         
         
         CLUST_TABLE <- data.frame(chr=CN_CHR$chrarm, cluster=ClustRes$Best.partition, stringsAsFactors = FALSE)

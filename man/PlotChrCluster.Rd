@@ -8,6 +8,7 @@ PlotChrCluster(
   segs,
   clust_method = "ward.D2",
   plot_output = FALSE,
+  plot_format = "png",
   plot_path,
   verbose = FALSE
 )
@@ -18,6 +19,8 @@ PlotChrCluster(
 \item{clust_method}{clustering method. Default is "ward.D2"}
 
 \item{plot_output}{Whether to plot refitted profiles (logical)}
+
+\item{plot_format}{File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png"}
 
 \item{plot_path}{Path to save output plots}
 

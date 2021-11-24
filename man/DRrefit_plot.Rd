@@ -22,7 +22,7 @@ DRrefit_plot(
 
 \item{plot_save}{Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.}
 
-\item{plot_format}{File format for the output plots. By default is "png" (accepts "png", "jpg", "pdf", "tiff").}
+\item{plot_format}{File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png"}
 
 \item{plot_path}{Path to save output plots.}
 }
@@ -30,7 +30,7 @@ DRrefit_plot(
 Return the sample copy number profile before and after DRrefit recalibration. The function can output the figure in the R viewer on save it in a specific path.
 }
 \description{
-DRrefit_plot
+The function plot the copy number profile before and after DRrefit recalibration
 }
 \examples{
 data("TCGA_BRCA_CN_segments")
