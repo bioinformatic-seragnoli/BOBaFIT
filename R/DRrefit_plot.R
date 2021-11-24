@@ -44,7 +44,7 @@ DRrefit_plot <- function(segments_refitted,
                          plot_path
 ) {
   
-
+ ID <- CN <- NULL
   
   samples <- unique(segments_refitted$ID)
   

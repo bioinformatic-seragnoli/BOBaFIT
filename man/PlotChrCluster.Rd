@@ -7,7 +7,9 @@
 PlotChrCluster(
   segs,
   clust_method = "ward.D2",
-  plot_output = FALSE,
+  plot_output = TRUE,
+  plot_viewer = FALSE,
+  plot_save = TRUE,
   plot_format = "png",
   plot_path,
   verbose = FALSE
@@ -20,9 +22,13 @@ PlotChrCluster(
 
 \item{plot_output}{Whether to plot refitted profiles (logical)}
 
+\item{plot_viewer}{Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is TRUE.}
+
+\item{plot_save}{Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.}
+
 \item{plot_format}{File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png"}
 
-\item{plot_path}{Path to save output plots}
+\item{plot_path}{Path to save output plots.}
 
 \item{verbose}{print information about the processes of the function. By default is FALSE}
 }

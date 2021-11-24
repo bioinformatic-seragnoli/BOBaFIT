@@ -6,8 +6,10 @@
 #' @param segs data.frame with segments of samples. It must be formatted with correct column names (start, end, ID)
 #' @param clust_method clustering method. Default is "ward.D2"
 #' @param plot_output Whether to plot refitted profiles (logical)
-#' @param plot_format File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png"
-#' @param plot_path Path to save output plots 
+#' @param plot_viewer Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is TRUE.
+#' @param plot_save  Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.
+#' @param plot_format File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png" 
+#' @param plot_path Path to save output plots.
 #' @param verbose print information about the processes of the function. By default is FALSE
 #'
 #' @return Plot with chromosomes clustered
@@ -32,8 +34,10 @@
 
 PlotChrCluster <- function(segs,
                            clust_method = "ward.D2",
-                           plot_output= FALSE,
-                           plot_format ="png",
+                           plot_output= TRUE,
+                           plot_viewer=FALSE,
+                           plot_save = TRUE,
+                           plot_format = "png",
                            plot_path,
                            verbose= FALSE) {
   report_clustering <- data.frame(sample = character(),
@@ -99,6 +103,22 @@ PlotChrCluster <- function(segs,
         
         if (plot_output == TRUE) {
           
+          gg <- ggplot(CLUST_TABLE, aes(
+            x = seq_len(nrow(CLUST_TABLE)),
+            y = CN,
+            colour = cluster
+          )) +
+            ylim(0,5) +
+            geom_mark_ellipse(aes(fill = cluster)) +
+            geom_hline(yintercept = 2, alpha = 0.5) +
+            geom_point(size = 2) +
+            geom_label(aes(label = chr), nudge_y = 0.1) +
+            ggtitle(samples[i])
+          
+          options(ggplot2. = "viridis")
+          
+          if(plot_save ==TRUE){
+          
           if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_PlotChrCluster.png"), width = 16, height = 4, units = "in", res = 300 ) 
           } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_PlotChrCluster.tif"), width = 16, height = 4, units = "in", res = 300 )
           } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_PlotChrCluster.pdf"), width = 16, height = 4 )
@@ -106,22 +126,14 @@ PlotChrCluster <- function(segs,
           } else { message("wrong plot format") 
             break}
           
-          print(
-            ggplot(CLUST_TABLE, aes(
-              x = seq_len(nrow(CLUST_TABLE)),
-              y = CN,
-              colour = cluster
-            )) +
-              ylim(0,5) +
-              geom_mark_ellipse(aes(fill = cluster)) +
-              geom_hline(yintercept = 2, alpha = 0.5) +
-              geom_point(size = 2) +
-              geom_label(aes(label = chr), nudge_y = 0.1) +
-              ggtitle(samples[i])
-          )
-          options(ggplot2. = "viridis")
+         print(gg)
+          
           dev.off()
-        }
+          }
+          
+          if(plot_viewer==TRUE){
+            print(gg)
+          }
         
       }
       
@@ -130,7 +142,7 @@ PlotChrCluster <- function(segs,
       
       CLUST_TABLE_LIST [[samples[i]]] <- CLUST_TABLE
       
-    }
+    }}
   } else {
     
     for (i in seq_along(samples)) {
@@ -183,39 +195,50 @@ PlotChrCluster <- function(segs,
         
         if (plot_output == TRUE) {
           
-          if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_PlotChrCluster.png"), width = 16, height = 4, units = "in", res = 300 ) 
-          } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_PlotChrCluster.tif"), width = 16, height = 4, units = "in", res = 300 )
-          } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_PlotChrCluster.pdf"), width = 16, height = 4 )
-          } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],"_PlotChrCluster.jpg"), width = 16, height = 4, units = "in", res = 300 ) 
-          } else { message("wrong plot format") 
-            break}
+          gg <- ggplot(CLUST_TABLE, aes(
+            x = seq_len(nrow(CLUST_TABLE)),
+            y = CN,
+            colour = cluster
+          )) +
+            ylim(0,5) +
+            geom_mark_ellipse(aes(fill = cluster)) +
+            geom_hline(yintercept = 2, alpha = 0.5) +
+            geom_point(size = 2) +
+            geom_label(aes(label = chr), nudge_y = 0.1) +
+            ggtitle(samples[i])
           
-          print(
-            ggplot(CLUST_TABLE, aes(
-              x = seq_len(nrow(CLUST_TABLE)),
-              y = CN,
-              colour = cluster
-            )) +
-              ylim(0,5) +
-              geom_mark_ellipse(aes(fill = cluster)) +
-              geom_hline(yintercept = 2, alpha = 0.5) +
-              geom_point(size = 2) +
-              geom_label(aes(label = chr), nudge_y = 0.1) +
-              ggtitle(samples[i])
-          )
           options(ggplot2. = "viridis")
-          dev.off()
+          
+          if(plot_save ==TRUE){
+            
+            if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_PlotChrCluster.png"), width = 16, height = 4, units = "in", res = 300 ) 
+            } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_PlotChrCluster.tif"), width = 16, height = 4, units = "in", res = 300 )
+            } else if(plot_format=="pdf") { pdf( file = paste0(plot_path, samples[i],"_PlotChrCluster.pdf"), width = 16, height = 4 )
+            } else if(plot_format == "jpg") { jpeg( paste0(plot_path, samples[i],"_PlotChrCluster.jpg"), width = 16, height = 4, units = "in", res = 300 ) 
+            } else { message("wrong plot format") 
+              break}
+            
+            print(gg)
+            
+            dev.off()
+          }
+          
+          if(plot_viewer==TRUE){
+            print(gg)
+          }
+          
         }
         
-      }
+      
       
       
       report_clustering <- rbind(report_clustering, samp_report)
       
       CLUST_TABLE_LIST [[samples[i]]] <- CLUST_TABLE
       
-    }}
-  OUTPUT <-
+    }} }
+ 
+   OUTPUT <-
     list(report = report_clustering , plot_tables = CLUST_TABLE_LIST)
   OUTPUT
 }
