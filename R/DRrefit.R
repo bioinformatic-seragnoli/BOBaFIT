@@ -47,7 +47,7 @@ DRrefit <- function(segments_chort,
   
   samples <- segments_chort$ID %>% unique()
   
-  if (verbose == TRUE) {
+  if (verbose) {
     
     for (i in seq_along(samples)){
       

@@ -35,8 +35,8 @@
 PlotChrCluster <- function(segs,
                            clust_method = "ward.D2",
                            plot_output= TRUE,
-                           plot_viewer=FALSE,
-                           plot_save = TRUE,
+                           plot_viewer= TRUE,
+                           plot_save = FALSE,
                            plot_format = "png",
                            plot_path,
                            verbose= FALSE) {
@@ -49,7 +49,7 @@ PlotChrCluster <- function(segs,
   
   
   samples <- segs$ID %>% unique()
-  if (verbose == TRUE) {
+  if (verbose) {
     for (i in seq_along(samples)) {
       cat("sample n: ", i, " - ", samples[i], "\n")
       
@@ -101,7 +101,7 @@ PlotChrCluster <- function(segs,
         
         CLUST_TABLE <- CLUST_TABLE %>% arrange(chr)
         
-        if (plot_output == TRUE) {
+        if (plot_output) {
           
           gg <- ggplot(CLUST_TABLE, aes(
             x = seq_len(nrow(CLUST_TABLE)),
@@ -117,7 +117,7 @@ PlotChrCluster <- function(segs,
           
           options(ggplot2. = "viridis")
           
-          if(plot_save ==TRUE){
+          if(plot_save){
           
           if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_PlotChrCluster.png"), width = 16, height = 4, units = "in", res = 300 ) 
           } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_PlotChrCluster.tif"), width = 16, height = 4, units = "in", res = 300 )
@@ -131,7 +131,7 @@ PlotChrCluster <- function(segs,
           dev.off()
           }
           
-          if(plot_viewer==TRUE){
+          if(plot_viewer){
             print(gg)
           }
         
@@ -193,7 +193,7 @@ PlotChrCluster <- function(segs,
         
         CLUST_TABLE <- CLUST_TABLE %>% arrange(chr)
         
-        if (plot_output == TRUE) {
+        if (plot_output) {
           
           gg <- ggplot(CLUST_TABLE, aes(
             x = seq_len(nrow(CLUST_TABLE)),
@@ -209,7 +209,7 @@ PlotChrCluster <- function(segs,
           
           options(ggplot2. = "viridis")
           
-          if(plot_save ==TRUE){
+          if(plot_save){
             
             if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],"_PlotChrCluster.png"), width = 16, height = 4, units = "in", res = 300 ) 
             } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],"_PlotChrCluster.tif"), width = 16, height = 4, units = "in", res = 300 )
@@ -223,7 +223,7 @@ PlotChrCluster <- function(segs,
             dev.off()
           }
           
-          if(plot_viewer==TRUE){
+          if(plot_viewer){
             print(gg)
           }
           

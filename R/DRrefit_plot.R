@@ -38,8 +38,8 @@
 
 DRrefit_plot <- function(segments_refitted,
                          DRrefit_report,
-                         plot_viewer=FALSE,
-                         plot_save = TRUE,
+                         plot_viewer= TRUE,
+                         plot_save = FALSE,
                          plot_format = "png",
                          plot_path
 ) {
@@ -80,7 +80,7 @@ DRrefit_plot <- function(segments_refitted,
         scale_color_manual(values=c("orange", "red3"))
       }
     
-    if(plot_save ==TRUE){
+    if(plot_save){
       
       if ( plot_format=="png" ) { png( paste0(plot_path, samples[i],".png"), width = 16, height = 4, units = "in", res = 300 ) 
       } else if(plot_format=="tiff") { tiff( paste0(plot_path, samples[i],".tif"), width = 16, height = 4, units = "in", res = 300 )
@@ -96,7 +96,7 @@ DRrefit_plot <- function(segments_refitted,
     }
     
     
-    if(plot_viewer==TRUE){
+    if(plot_viewer){
       print(gg)
     }
     

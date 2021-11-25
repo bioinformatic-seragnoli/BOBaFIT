@@ -42,7 +42,7 @@ computeNormalChromosomes <- function(segments,
   
   all_chromosome <- data.frame()
   
-  if (verbose == TRUE) {  
+  if (verbose) {  
     for (i in seq_along(samples)) {
       message(i, " - ", samples[i])
       segments_sample <- segments %>% filter(ID == samples[i])
