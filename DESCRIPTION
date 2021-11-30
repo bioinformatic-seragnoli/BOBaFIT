@@ -1,7 +1,7 @@
 Package: BOBaFIT
 Type: Package
 Title: Refitting diploid region profiles using a clustering procedure
-Version: 0.99.21
+Version: 0.99.22
 Authors@R: c(person("Andrea", "Poletti", email="andrea.poletti5@gmail.com", 
       role=c("aut")),
       person("Gaia", "Mazzocchetti", email="bioinformatic.seragnoli@gmail.com", 
