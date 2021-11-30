@@ -7,8 +7,8 @@
 DRrefit_plot(
   segments_refitted,
   DRrefit_report,
-  plot_viewer = FALSE,
-  plot_save = TRUE,
+  plot_viewer = TRUE,
+  plot_save = FALSE,
   plot_format = "png",
   plot_path
 )

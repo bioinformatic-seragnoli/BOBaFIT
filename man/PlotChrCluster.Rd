@@ -8,8 +8,8 @@ PlotChrCluster(
   segs,
   clust_method = "ward.D2",
   plot_output = TRUE,
-  plot_viewer = FALSE,
-  plot_save = TRUE,
+  plot_viewer = TRUE,
+  plot_save = FALSE,
   plot_format = "png",
   plot_path,
   verbose = FALSE

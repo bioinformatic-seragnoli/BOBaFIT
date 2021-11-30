@@ -39,7 +39,6 @@ Suggests:
     markdown,
     BiocStyle,
     knitr,
-    testthat (>= 3.0.0),
     utils,
     testthat
 Config/testthat/edition: 3
