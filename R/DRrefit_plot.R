@@ -64,7 +64,7 @@ DRrefit_plot <- function(segments_refitted,
       ggtitle(paste0("Sample name: ",samples[i]),
               subtitle = paste0("Correction factor= ", correction_factor %>% round(3)," / diploid chrs: ", chromosome_list)) +
       geom_segment(stat="identity", aes(y=CN, colour="old_CN"), size = 1.2, alpha=0.7) +
-      geom_segment(stat="identity", aes(y=Granges_segments$CN_correced, colour="new_CN_corrected"), size = 1.2, alpha=0.7) +
+      geom_segment(stat="identity", aes(y=Granges_segments$CN_corrected, colour="new_CN_corrected"), size = 1.2, alpha=0.7) +
       ylim(0,5) +
       facet_grid( ~seqnames, scales = "free", space = "free", margins = FALSE) +
       theme_bw() +
