@@ -134,8 +134,8 @@ DRrefit <- function(segments_chort,
       
       samp_report$correction_factor <- correction_factor
       
-      samp_report$correction_class <- ifelse(correction_factor > 0.5, "REFITTED",
-                                             ifelse(correction_factor <= 0.1, "NO CHANGES", "RECALIBRATED"))
+      samp_report$correction_class <- ifelse(abs(correction_factor) > 0.5, "REFITTED",
+                                             ifelse(abs(correction_factor) <= 0.1, "NO CHANGES", "RECALIBRATED"))
       
       report_clustering_list [[i]]<- samp_report
       
@@ -232,8 +232,8 @@ DRrefit <- function(segments_chort,
       
       samp_report$correction_factor <- correction_factor
       
-      samp_report$correction_class <- ifelse(correction_factor > 0.5, "REFITTED",
-                                             ifelse(correction_factor <= 0.1, "NO CHANGES", "RECALIBRATED"))
+      samp_report$correction_class <- ifelse(abs(correction_factor) > 0.5, "REFITTED",
+                                             ifelse(abs(correction_factor) <= 0.1, "NO CHANGES", "RECALIBRATED"))
       
       report_clustering_list [[i]]<- samp_report
       
@@ -250,7 +250,7 @@ DRrefit <- function(segments_chort,
   segments_chort_corrected_df <- Reduce(rbind, segments_chort_corrected_list)
   report_clustering_df <- Reduce(rbind, report_clustering_list)
   
-  OUTPUT[["segments_corrected"]] <- segments_chort_corrected_df
+  OUTPUT[["corrected_segments"]] <- segments_chort_corrected_df
   OUTPUT[["report"]] <- report_clustering_df
   
   OUTPUT

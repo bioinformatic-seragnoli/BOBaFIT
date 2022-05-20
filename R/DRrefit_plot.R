@@ -2,10 +2,10 @@
 #'
 #' @description The function plot the copy number profile before and after DRrefit recalibration 
 #'
-#' @param segments_refitted DRrefit output dataframe. 
+#' @param corrected_segments DRrefit output dataframe. 
 #' @param DRrefit_report  DRrefit output dataframe.
 #' @param plot_viewer Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is FALSE.
-#' @param plot_save  Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.
+#' @param plot_save  Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is FALSE.
 #' @param plot_format File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png" 
 #' @param plot_path Path to save output plots.
 #'
@@ -26,31 +26,31 @@
 #' 
 #' results <- DRrefit(segments_chort = TCGA_BRCA_CN_segments, chrlist = chr_list)
 #'                    
-#' my_segments <- results$segments_corrected
+#' my_segments <- results$corrected_segments
 #' my_report <- results$report
 #' 
-#' DRrefit_plot(segments_refitted = my_segments,
+#' DRrefit_plot(corrected_segments = my_segments,
 #'              DRrefit_report = my_report, 
 #'              plot_viewer= FALSE, 
 #'              plot_save = FALSE)
 #' 
 #' 
 
-DRrefit_plot <- function(segments_refitted,
+DRrefit_plot <- function(corrected_segments,
                          DRrefit_report,
-                         plot_viewer= TRUE,
-                         plot_save = FALSE,
+                         plot_viewer= F,
+                         plot_save = F,
                          plot_format = "png",
                          plot_path
 ) {
   
- ID <- CN <- NULL
+  ID <- CN <- NULL
   
-  samples <- unique(segments_refitted$ID)
+  samples <- unique(corrected_segments$ID)
   
   for (i in seq_along(samples)) {
     
-    segments <- segments_refitted %>%  filter(ID==samples[i])
+    segments <- corrected_segments %>%  filter(ID==samples[i])
     
     report_samp <- DRrefit_report %>%  filter(sample== samples[i])
     
@@ -59,26 +59,35 @@ DRrefit_plot <- function(segments_refitted,
     chromosome_list <- report_samp$ref_clust_chr
     correction_factor <- report_samp$correction_factor
     
+    if(abs(correction_factor) > 0.1 ){
+      color1= "green4"
+      color2="red3"
+    } else {
+      color1="orange"
+      color2="red3"
+    } 
     
-    gg <- ggplot(Granges_segments) +
+    gg <- ggplot() +
       ggtitle(paste0("Sample name: ",samples[i]),
               subtitle = paste0("Correction factor= ", correction_factor %>% round(3)," / diploid chrs: ", chromosome_list)) +
-      geom_segment(stat="identity", aes(y=CN, colour="old_CN"), size = 1.2, alpha=0.7) +
-      geom_segment(stat="identity", aes(y=Granges_segments$CN_corrected, colour="new_CN_corrected"), size = 1.2, alpha=0.7) +
+      geom_segment(data= Granges_segments,  stat="identity", aes(y= CN),  colour=color1, size = 1.2, alpha=0.7) +
+      geom_segment(data = Granges_segments, stat="identity", aes(y= CN_corrected), colour= color2, size = 1.2, alpha=0.7) +
       ylim(0,5) +
-      facet_grid( ~seqnames, scales = "free", space = "free", margins = FALSE) +
+      facet_grid( ~seqnames, scales = "free", space = "free", margins = FALSE, switch="x") +
       theme_bw() +
-      theme(panel.spacing=unit(.05, "lines"),
-            panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+      theme(panel.spacing=unit(.05, "lines"), 
+            panel.border = element_rect(color = "black", fill = NA, size = 0.2), 
+            axis.text.x = element_text(size=6, angle = 90, vjust = 0.5, hjust=1),
+            strip.background = element_rect(color="black", fill="grey90", linetype="solid"),
+            strip.text.x = element_text(face = "bold", size=8),
             legend.position="bottom") +
-      scale_x_continuous(labels = function(x) format(x/1000000, scientific = FALSE), expand = c(0, 0), limits = c(0, NA))+
+      scale_x_continuous(labels = function(x) format(x/1000000, scientific = FALSE), 
+                         breaks = seq(0, 300*10^6,  by = 25*10^6),
+                         expand = c(0, 0), 
+                         limits = c(NA, NA))+
       geom_hline(yintercept = 2, linetype=3) +
-      xlab("Mbp (genomic position)") +
-      if(abs(correction_factor) > 0.1 ){
-        scale_color_manual(values=c("green4", "red3"))
-      } else {
-        scale_color_manual(values=c("orange", "red3"))
-      }
+      xlab("Mbp (genomic position)")
+    
     
     if(plot_save){
       
@@ -94,7 +103,6 @@ DRrefit_plot <- function(segments_refitted,
       
       dev.off()
     }
-    
     
     if(plot_viewer){
       print(gg)

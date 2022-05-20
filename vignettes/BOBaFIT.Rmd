@@ -92,13 +92,13 @@ results <- DRrefit (segments_chort = test, chrlist = chr_list)
 
 ### The Dataframes
 
--   The data frame `segments corrected` reports the CN corrected of the segments by the correction factor (CR) - value estimated for each sample by the function to correct the diploid region-
+-   The data frame `corrected_segments` reports the CN corrected of the segments by the correction factor (CR) - value estimated for each sample by the function to correct the diploid region-
 ```{r call output PlotChrCluster code 1, eval=FALSE}
-results$segments_corrected[1,]
+results$corrected_segments[1,]
 ```
 
 ```{r Call segments DRrefit 1, echo=FALSE}
-table <- results$segments_corrected[1,] %>% select(chr,start,end, ID, arm, chrarm,CN,CN_corrected)
+table <- results$corrected_segments[1,] %>% select(chr,start,end, ID, arm, chrarm,CN,CN_corrected)
 knitr::kable(table,digits = 3)
 
 ```
@@ -122,17 +122,17 @@ When the column `clustering` reports FAIL, it indicates that , NbClust fails the
 Thanks to the function `DRrefit_plot` is possible appreciate the CN profile before and after the correction made by`DRrefit`. It makes a plot for each sample with the old and new segments positions. The x-axes represent the chromosomes with their genomic position, and the y-axes the copy number value. Above the plot are reported the sample name, the CR and the chromosomal arm used as reference to estimate the new diploid region.
 
 ```{r DRrefit_plot, eval=FALSE}
-segments_corrected <- results$segments_corrected
+corrected_segments <- results$corrected_segments
 report <- results$report
 
 # the plot is diplayed on the R viewer
-DRrefit_plot(segments_refitted = segments_corrected,
+DRrefit_plot(corrected_segments = corrected_segments,
              DRrefit_report = report, 
              plot_viewer = TRUE, 
              plot_save = FALSE )
 
 # how to save the plot 
-DRrefit_plot(segments_refitted = segments_corrected,
+DRrefit_plot(corrected_segments = corrected_segments,
              DRrefit_report = report, 
              plot_save = TRUE, plot_format = "pdf", plot_path = "/my_path" )
 ```
