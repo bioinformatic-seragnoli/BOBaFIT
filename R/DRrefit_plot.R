@@ -13,7 +13,7 @@
 #' @export
 #' 
 #' @importFrom grDevices png tiff pdf jpeg dev.off
-#' @importFrom ggplot2 ggplot ggtitle ylim facet_grid theme_bw theme scale_x_continuous geom_hline  xlab scale_color_manual unit element_rect
+#' @import ggplot2
 #' @importFrom ggbio geom_segment
 #' @importFrom GenomicRanges makeGRangesFromDataFrame 
 #' @importFrom tidyr %>%
@@ -44,7 +44,7 @@ DRrefit_plot <- function(corrected_segments,
                          plot_path
 ) {
   
-  ID <- CN <- NULL
+  ID <- CN <- CN_corrected <-  NULL
   
   samples <- unique(corrected_segments$ID)
   

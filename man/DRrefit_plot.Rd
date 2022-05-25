@@ -5,22 +5,22 @@
 \title{DRrefit_plot}
 \usage{
 DRrefit_plot(
-  segments_refitted,
+  corrected_segments,
   DRrefit_report,
-  plot_viewer = TRUE,
-  plot_save = FALSE,
+  plot_viewer = F,
+  plot_save = F,
   plot_format = "png",
   plot_path
 )
 }
 \arguments{
-\item{segments_refitted}{DRrefit output dataframe.}
+\item{corrected_segments}{DRrefit output dataframe.}
 
 \item{DRrefit_report}{DRrefit output dataframe.}
 
 \item{plot_viewer}{Logical parameter. When it is TRUE, the function print the output plot in the R viewer.By default is FALSE.}
 
-\item{plot_save}{Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is TRUE.}
+\item{plot_save}{Logical parameter. When it is TRUE, the function save the plot in the chosen path and format. By default is FALSE.}
 
 \item{plot_format}{File format for the output plots (accepts "png", "jpg", "pdf", "tiff"). By default is "png"}
 
@@ -39,10 +39,10 @@ chr_list <- c("10q","11p","12p","19q","1p","21q","2q","3p","4p","4q","6p","6q","
 
 results <- DRrefit(segments_chort = TCGA_BRCA_CN_segments, chrlist = chr_list)
                    
-my_segments <- results$segments_corrected
+my_segments <- results$corrected_segments
 my_report <- results$report
 
-DRrefit_plot(segments_refitted = my_segments,
+DRrefit_plot(corrected_segments = my_segments,
              DRrefit_report = my_report, 
              plot_viewer= FALSE, 
              plot_save = FALSE)

@@ -67,7 +67,11 @@ Storing the result in the variable `chr_list`, it will be a vector containing th
 
 The function also plots in the Viewer a histogram where is possible observe the chromosomal alteration rate of each chromosomal arms and which one have been selected in the chromosome list (blue bars). The tolerance value has been set at 0.25 (dotted line).
 
-![](figure/Chromosome_list.png "Chromosome list")
+
+```{r chrlist plot, echo=FALSE, fig.height=10, fig.width=16}
+chr_list <- computeNormalChromosomes(segments = TCGA_BRCA_CN_segments, 
+				     tolerance_val = 0.25)
+```
 
 ## DRrefit
 
@@ -82,7 +86,7 @@ results <- DRrefit (segments_chort = TCGA_BRCA_CN_segments, chrlist = chr_list)
 
 ```
 
-```{r DRrefit_test, include=FALSE}
+```{r DRrefit_test,include=FALSE}
 library(dplyr)
 samples <- TCGA_BRCA_CN_segments$ID %>% unique()
 sample_test <- samples[1:5]
@@ -97,7 +101,7 @@ results <- DRrefit (segments_chort = test, chrlist = chr_list)
 results$corrected_segments[1,]
 ```
 
-```{r Call segments DRrefit 1, echo=FALSE}
+```{r Call segments DRrefit 1, echo=FALSE, paged.print=TRUE}
 table <- results$corrected_segments[1,] %>% select(chr,start,end, ID, arm, chrarm,CN,CN_corrected)
 knitr::kable(table,digits = 3)
 
@@ -110,7 +114,7 @@ It is similar to the input one and report the new CN value of each segment calcu
 results$report[1,] 
 ```
 
-```{r Call report DRrefit 2, echo=FALSE}
+```{r Call report DRrefit 2, echo=FALSE, paged.print=TRUE}
 knitr::kable(results$report[1,]) 
 
 ```
@@ -121,10 +125,11 @@ When the column `clustering` reports FAIL, it indicates that , NbClust fails the
 
 Thanks to the function `DRrefit_plot` is possible appreciate the CN profile before and after the correction made by`DRrefit`. It makes a plot for each sample with the old and new segments positions. The x-axes represent the chromosomes with their genomic position, and the y-axes the copy number value. Above the plot are reported the sample name, the CR and the chromosomal arm used as reference to estimate the new diploid region.
 
-```{r DRrefit_plot, eval=FALSE}
+```{r DRrefit res}
 corrected_segments <- results$corrected_segments
 report <- results$report
-
+```
+```{r DRrefit_plot, eval=FALSE}
 # the plot is diplayed on the R viewer
 DRrefit_plot(corrected_segments = corrected_segments,
              DRrefit_report = report, 
@@ -141,11 +146,25 @@ Based on the CR value two plots can be displayed:
 
 -   CR ≤ 0.1: the new segment and the old segments are orange and red colored, respectively;
 
-![](figure/SAMPLE_1_ward.D2.png "CR < 0.1"){style="style" width="32in"}
+```{r DRrefit_plot 1, echo=FALSE, fig.height=7, fig.width=18}
+report_s <- report[report$sample == "01428281-1653-4839-b5cf-167bc62eb147",]
+seg <- corrected_segments[corrected_segments$ID == "01428281-1653-4839-b5cf-167bc62eb147",]
+DRrefit_plot(corrected_segments = seg,
+             DRrefit_report = report, 
+             plot_viewer = T )
+```
+
 
 -   CR \> 0.1: the new segment and the old segments are green and red colored, respectively;
 
-![](figure/SAMPLE_13_ward.D2.png "CR > 0.1"){width="100%"}
+```{r DRrefit_plot 2, echo=FALSE, fig.height=7, fig.width=18}
+report_s <- report[report$sample == "0941a978-c8aa-467b-8464-9f979d1f0418",]
+seg <- corrected_segments[corrected_segments$ID == "0941a978-c8aa-467b-8464-9f979d1f0418",]
+DRrefit_plot(corrected_segments = seg,
+             DRrefit_report = report, 
+             plot_viewer = T )
+```
+
 
 # PlotChrCluster
 
@@ -160,13 +179,14 @@ Cluster <- PlotChrCluster(segs = TCGA_BRCA_CN_segments,
 ```{r PlotChrCluster_test, include=FALSE}
 Cluster <- PlotChrCluster(segs = test,
                        clust_method = "ward.D2",
-                       plot_output= FALSE)
+                       plot_output= T)
 
 ```
 
 We suggest to store the output on a variable (in this example we use `Cluster`) to view and possibly save the data frame generated. The `PlotCuster` will automatically save the plot in the folder indicated by the variable `path` of the argument `plot_path`.
 
 In the `PlotChrCluster` plot, the chromosomal arms are labeled and colored according to the cluster they belong to. The y-axis reports the arm CN.
+
 
 ![](figure/SAMPLE_100_PlotChrCluster.png){style="text-align: center;" width="100%"}
 

@@ -12,7 +12,7 @@
 #' @importFrom dplyr filter group_by summarise arrange
 #' @importFrom tidyr %>%
 #' @importFrom stats weighted.mean
-#' @importFrom ggplot2 aes geom_hline geom_text geom_bar ggplot scale_fill_manual labs
+#' @import ggplot2
 #' @importFrom stringr str_sort
 #'
 #'
