@@ -59,19 +59,12 @@ DRrefit_plot <- function(corrected_segments,
     chromosome_list <- report_samp$ref_clust_chr
     correction_factor <- report_samp$correction_factor
     
-    if(abs(correction_factor) > 0.1 ){
-      color1= "green4"
-      color2="red3"
-    } else {
-      color1="orange"
-      color2="red3"
-    } 
     
     gg <- ggplot() +
       ggtitle(paste0("Sample name: ",samples[i]),
               subtitle = paste0("Correction factor= ", correction_factor %>% round(3)," / diploid chrs: ", chromosome_list)) +
-      geom_segment(data= Granges_segments,  stat="identity", aes(y= CN),  colour=color1, size = 1.2, alpha=0.7) +
-      geom_segment(data = Granges_segments, stat="identity", aes(y= CN_corrected), colour= color2, size = 1.2, alpha=0.7) +
+      geom_segment(data= Granges_segments,  stat="identity", aes(y= CN, color="old CN"), size = 1.2, alpha=0.7) +
+      geom_segment(data = Granges_segments, stat="identity", aes(y= CN_corrected, color="corrected CN"), size = 1.2, alpha=0.7) +
       ylim(0,5) +
       facet_grid( ~seqnames, scales = "free", space = "free", margins = FALSE, switch="x") +
       theme_bw() +
@@ -86,7 +79,13 @@ DRrefit_plot <- function(corrected_segments,
                          expand = c(0, 0), 
                          limits = c(NA, NA))+
       geom_hline(yintercept = 2, linetype=3) +
-      xlab("Mbp (genomic position)")
+      xlab("Mbp (genomic position)")+
+      if(abs(correction_factor) > 0.1 ){
+        scale_color_manual(values=c("green4", "red3")) 
+      } else {
+        scale_color_manual(values=c("orange", "red3"))
+      }
+    
     
     
     if(plot_save){
